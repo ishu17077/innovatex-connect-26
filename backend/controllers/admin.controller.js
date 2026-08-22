@@ -9,7 +9,7 @@ import {
   sendPaymentMail
 } from "../services/mail.service"
 import {
-  hasExceed24Hours
+  hasExceedTicketAcceptanceTime
 } from "../services/ticket.service";
 
 export async function getAdminDashboardController() {
@@ -67,7 +67,7 @@ export async function listTicketsController(status) {
   });
   if (status === TICKET_STATUS.PAYMENT_REQUIRED) {
     const expiredTickets = tickets.filter((ticket) => {
-      return hasExceed24Hours(ticket.approvedAt)
+      return hasExceedTicketAcceptanceTime(ticket.approvedAt)
     })
     if (expiredTickets.length !== 0) {
       await Ticket.updateMany({
