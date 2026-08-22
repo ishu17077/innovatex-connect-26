@@ -1,5 +1,6 @@
 import Referral from "../models/Referral";
 import User from "../models/User";
+import Ticket from "../models/Ticket";
 import {
   ROLES,
   TICKET_STATUS
@@ -15,13 +16,18 @@ export async function getLeaderboardService(isAdmin = false) {
       const totalReferrals = await Referral.countDocuments({
         partnerId: partner._id
       });
-      const approvedReferrals = await Referral.countDocuments({
-        partnerId: partner._id,
-        status: TICKET_STATUS.APPROVED,
+      // Find all referrals made by this partner to cross-reference with actual Tickets
+      const partnerReferrals = await Referral.find({ partnerId: partner._id }).select('referredUser');
+      const referredUserIds = partnerReferrals.map(r => r.referredUser);
+
+      // Count actual tickets for these users to get accurate approved counts
+      const approvedReferrals = await Ticket.countDocuments({
+        userId: { $in: referredUserIds },
+        status: TICKET_STATUS.APPROVED
       });
-      const paymentPendingReferrals = await Referral.countDocuments({
-        partnerId: partner._id,
-        status: TICKET_STATUS.PAYMENT_REQUIRED,
+      const paymentPendingReferrals = await Ticket.countDocuments({
+        userId: { $in: referredUserIds },
+        status: TICKET_STATUS.PAYMENT_REQUIRED
       });
 
       return {
