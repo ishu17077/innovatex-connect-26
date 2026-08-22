@@ -264,7 +264,7 @@ export default function AdminDashboardPage() {
             {/* OVERVIEW */}
             {activeTab === 'overview' && (
               <div className="space-y-5">
-                <div className="grid grid-cols-3 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {[
                     { label: 'Total Users', value: analytics.totalUsers || 0, color: 'text-white', border: 'border-white/10' },
                     { label: 'Pending Review', value: analytics.pendingTickets || 0, color: 'text-amber-400', border: 'border-amber-500/20' },
@@ -591,7 +591,7 @@ export default function AdminDashboardPage() {
                                 <td className="py-3 px-3 text-center font-extrabold text-[#EE4B15] text-sm">
                                   {item.paymentPendingReferrals}
                                 </td>
-                                <td className="py-3 px-3 text-center font-extrabold text-[#EE4B15] text-sm">
+                                <td className="py-3 px-3 text-center font-extrabold text-green-700 text-sm">
                                   {item.approvedReferrals}
                                 </td>
 
