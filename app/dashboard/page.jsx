@@ -413,94 +413,99 @@ export default function UserDashboardPage() {
                 </p>
               </div>
             ) : data.ticket.status === 'Approved' ? (
-              /* Approved Ticket - Event Pass */
-              <div className="relative bg-[#0A0B1A] bg-ticket-grid rounded-3xl p-6 sm:p-8 border border-[#EE4B15]/30 text-white shadow-2xl overflow-hidden">
-                {/* Neon Backlight Glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#EE4B15]/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="space-y-6">
+                {/* Approved Ticket - Event Pass */}
+                <div className="relative bg-[#0A0B1A] bg-ticket-grid rounded-3xl p-6 sm:p-8 border border-[#EE4B15]/30 text-white shadow-2xl overflow-hidden">
+                  {/* Neon Backlight Glow */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#EE4B15]/10 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                  {/* Left Side: Ticket Metadata */}
-                  <div className="md:col-span-2 space-y-6">
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                      <div>
-                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#EE4B15]">
-                          OFFICIAL EVENT PASS
+                  <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                    {/* Left Side: Ticket Metadata */}
+                    <div className="md:col-span-2 space-y-6">
+                      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                        <div>
+                          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#EE4B15]">
+                            OFFICIAL EVENT PASS
+                          </span>
+                          <h2 className="text-2xl font-black tracking-tight text-white mt-0.5">
+                            InnovateX Connect &apos;26
+                          </h2>
+                        </div>
+                        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#EE4B15]/20 text-[#EE4B15] border border-[#EE4B15]/30">
+                          {data.ticket.ticketNumber}
                         </span>
-                        <h2 className="text-2xl font-black tracking-tight text-white mt-0.5">
-                          InnovateX Connect &apos;26
-                        </h2>
                       </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#EE4B15]/20 text-[#EE4B15] border border-[#EE4B15]/30">
-                        {data.ticket.ticketNumber}
-                      </span>
-                    </div>
 
-                    <div className="grid grid-cols-2 gap-4 text-xs">
-                      <div>
-                        <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Attendee</p>
-                        <p className="font-bold text-slate-100 text-sm mt-0.5">{data.user?.name}</p>
+                      <div className="grid grid-cols-2 gap-4 text-xs">
+                        <div>
+                          <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Attendee</p>
+                          <p className="font-bold text-slate-100 text-sm mt-0.5">{data.user?.name}</p>
+                        </div>
+                        <div>
+                          <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Category</p>
+                          <p className="font-bold text-slate-100 text-sm mt-0.5">{data.ticket.attendeeType}</p>
+                        </div>
+                        <div>
+                          <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Date & Venue</p>
+                          <p className="font-bold text-slate-100 text-xs mt-0.5">JIS University, Kolkata • 9 AM</p>
+                        </div>
+                        <div>
+                          <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Organization</p>
+                          <p className="font-bold text-slate-100 text-xs mt-0.5 truncate">
+                            {data.user?.college || data.user?.company || 'Developer'}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Category</p>
-                        <p className="font-bold text-slate-100 text-sm mt-0.5">{data.ticket.attendeeType}</p>
+
+                      {/* Check-in Badges */}
+                      <div className="flex flex-wrap items-center gap-3 pt-2">
+                        <div className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 ${data.ticket.checkedIn
+                          ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
+                          : 'bg-[#090D2B] text-slate-400 border border-white/8'
+                          }`}>
+                          <span className={`w-2 h-2 rounded-full ${data.ticket.checkedIn ? 'bg-emerald-400' : 'bg-slate-500'}`} />
+                          {data.ticket.checkedIn ? 'Main Gate Checked In 🟢' : 'Not Checked In Yet'}
+                        </div>
+
+                        <div className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 ${data.ticket.foodCollected
+                          ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
+                          : 'bg-[#EE4B15]/15 text-[#EE4B15] border border-[#EE4B15]/25'
+                          }`}>
+                          <span className="text-xs">{data.ticket.foodCollected ? '🍔' : '🎟️'}</span>
+                          {data.ticket.foodCollected ? 'Food Claimed' : 'Food Coupon Available'}
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Date & Venue</p>
-                        <p className="font-bold text-slate-100 text-xs mt-0.5">JIS University, Kolkata • 9 AM</p>
-                      </div>
-                      <div>
-                        <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Organization</p>
-                        <p className="font-bold text-slate-100 text-xs mt-0.5 truncate">
-                          {data.user?.college || data.user?.company || 'Developer'}
+
+                      {/* Mandatory Laptop Note */}
+                      <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-start gap-3">
+                        <span className="text-blue-400 font-bold text-sm">ℹ️</span>
+                        <p className="text-blue-200 text-xs font-medium leading-relaxed">
+                          <span className="font-bold text-blue-400">Important:</span> Please remember to bring your laptop. It is <span className="font-bold text-white underline">mandatory</span> for participating in this event.
                         </p>
                       </div>
                     </div>
 
-                    {/* Check-in Badges */}
-                    <div className="flex flex-wrap items-center gap-3 pt-2">
-                      <div className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 ${data.ticket.checkedIn
-                        ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-[#090D2B] text-slate-400 border border-white/8'
-                        }`}>
-                        <span className={`w-2 h-2 rounded-full ${data.ticket.checkedIn ? 'bg-emerald-400' : 'bg-slate-500'}`} />
-                        {data.ticket.checkedIn ? 'Main Gate Checked In 🟢' : 'Not Checked In Yet'}
-                      </div>
-
-                      <div className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 ${data.ticket.foodCollected
-                        ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-[#EE4B15]/15 text-[#EE4B15] border border-[#EE4B15]/25'
-                        }`}>
-                        <span className="text-xs">{data.ticket.foodCollected ? '🍔' : '🎟️'}</span>
-                        {data.ticket.foodCollected ? 'Food Claimed' : 'Food Coupon Available'}
-                      </div>
-                    </div>
-
-                    {/* Mandatory Laptop Note */}
-                    <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-start gap-3">
-                      <span className="text-blue-400 font-bold text-sm">ℹ️</span>
-                      <p className="text-blue-200 text-xs font-medium leading-relaxed">
-                        <span className="font-bold text-blue-400">Important:</span> Please remember to bring your laptop. It is <span className="font-bold text-white underline">mandatory</span> for participating in this event.
+                    {/* Right Side: QR Code */}
+                    <div className="flex flex-col items-center justify-center p-4 rounded-2xl border border-white/8 pt-6">
+                      {data.ticket.qrCode ? (
+                        <Image
+                          src={data.ticket.qrCode}
+                          alt="Event QR Ticket"
+                          width={100}
+                          height={100}
+                          className="w-44 h-44 rounded-xl shadow-xl bg-white p-2"
+                        />
+                      ) : (
+                        <div className="w-44 h-44 bg-slate-900 rounded-xl flex items-center justify-center text-slate-500 text-xs">
+                          Generating QR...
+                        </div>
+                      )}
+                      <p className="text-[10px] text-slate-400 mt-3 font-mono">
+                        Present at gate for scanning
                       </p>
                     </div>
                   </div>
 
-                  {/* Right Side: QR Code */}
-                  <div className="flex flex-col items-center justify-center p-4 bg-[#090D2B] rounded-2xl border border-white/8 text-center">
-                    {data.ticket.qrCode ? (
-                      <img
-                        src={data.ticket.qrCode}
-                        alt="Event QR Ticket"
-                        className="w-44 h-44 rounded-xl shadow-xl bg-white p-2"
-                      />
-                    ) : (
-                      <div className="w-44 h-44 bg-slate-900 rounded-xl flex items-center justify-center text-slate-500 text-xs">
-                        Generating QR...
-                      </div>
-                    )}
-                    <p className="text-[10px] text-slate-400 mt-3 font-mono">
-                      Present at gate for scanning
-                    </p>
-                  </div>
                 </div>
               </div>
             ) : data.ticket.status === 'Invitation Expired' ? (
@@ -521,7 +526,34 @@ export default function UserDashboardPage() {
                 </p>
               </div>
             )}
-
+            {/* WhatsApp Group Link */}
+            {data.WAGroupLink && (
+              <div className='bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 overflow-hidden mt-6'>
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-white relative ">
+                  <div className="absolute top-1/2 right-0 w-48 h-48 bg-[#25D366]/10 rounded-full blur-3xl pointer-events-none translate-x-1/2 -translate-y-1/2" />
+                  <div className="flex items-start sm:items-center gap-5 relative z-10">
+                    <div className="w-14 h-14 rounded-2xl bg-[#25D366]/10 flex items-center justify-center text-[#25D366] shrink-0 border border-[#25D366]/20 shadow-inner">
+                      <Icons.Whatsapp className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-extrabold text-white mb-1">Join the Official WhatsApp Group(Mandatory)</h3>
+                      <p className="text-slate-400 text-xs sm:text-sm max-w-md">Connect with fellow attendees, get real-time event updates, and participate in exclusive discussions.</p>
+                    </div>
+                  </div>
+                  <a
+                    href={data.WAGroupLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full md:w-auto px-6 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#25D366]/90 text-[#090D2B] font-extrabold text-sm shadow-lg shadow-[#25D366]/20 transition-all flex items-center justify-center gap-2 shrink-0 relative z-10"
+                  >
+                    Join Group
+                    <Icons.ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+                <br />
+                <p className="text-xs sm:text-sm text-red-500 max-w-full">Note: This is mandatory for all the attendees. Do not share this link with anyone else.</p>
+              </div>
+            )}
             {/* Notifications Feed */}
             <div className="bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 text-white">
               <h3 className="text-lg font-extrabold text-white mb-4 flex items-center gap-2">

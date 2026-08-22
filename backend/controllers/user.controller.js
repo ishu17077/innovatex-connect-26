@@ -1,6 +1,9 @@
 import User from "../models/User";
 import Ticket from "../models/Ticket";
 import Notification from "../models/Notification";
+import {
+  TICKET_STATUS
+} from "../config/constants";
 
 export async function getProfileController(userId) {
   const user = await User.findById(userId).select("-password -secret");
@@ -36,6 +39,15 @@ export async function getUserDashboardController(userId) {
   }).sort({
     createdAt: -1
   }).limit(5);
+
+  if (ticket && ticket.status === TICKET_STATUS.APPROVED) {
+    return {
+      WAGroupLink: "https://chat.whatsapp.com/KxUUA6FGkJgH5mVf8699Vv?s=cl&p=a&ilr=4",
+      user,
+      ticket,
+      notifications,
+    }
+  }
 
   return {
     user,
