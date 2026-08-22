@@ -26,8 +26,8 @@ function CountdownTimer({ approvedAt }) {
 
   useEffect(() => {
     if (!approvedAt) return;
-
-    const expiryTime = new Date(approvedAt).getTime() + Number(process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS) ?? 24 * 60 * 60 * 1000;
+    const hoursExtra = process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS ? Number(process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS) : 24
+    const expiryTime = new Date(approvedAt).getTime() + hoursExtra * 60 * 60 * 1000;
 
     const updateTimer = () => {
       const now = new Date().getTime();
@@ -38,7 +38,7 @@ function CountdownTimer({ approvedAt }) {
         setTimeLeft('Expired');
         return false;
       } else {
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * hoursExtra)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         setTimeLeft(`${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`);
