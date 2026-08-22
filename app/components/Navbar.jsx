@@ -12,7 +12,7 @@ export default function Navbar() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-
+  
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
   const linksRef = useRef([]);
   const [currentHash, setCurrentHash] = useState('');
@@ -62,7 +62,8 @@ export default function Navbar() {
       const activeIndex = [
         isActive('/'),
         isActive('/#speakers', '#speakers'),
-        isActive('/#agenda', '/agenda'),
+        //TODO: Implement
+        isActive('/#agenda', '#agenda', '/#comingsoon', '#comingsoon'),
         isActive('/teams')
       ].findIndex(Boolean);
 
@@ -130,6 +131,7 @@ export default function Navbar() {
           <Link
             ref={el => (linksRef.current[0] = el)}
             href="/#home"
+            onClick={() => setCurrentHash('#home')}
             aria-label="Home"
             className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/')
               ? 'text-white'
@@ -142,7 +144,8 @@ export default function Navbar() {
           { /*//TODO: Change this*/}
           <Link
             ref={el => (linksRef.current[1] = el)}
-            href="/#comingsoon"
+            href="/#speakers"
+            onClick={() => setCurrentHash('#speakers')}
             aria-label="Speakers"
             className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/#speakers', '#speakers')
               ? 'text-white'
@@ -152,12 +155,13 @@ export default function Navbar() {
             <Icons.Speakers />
             <span className="hidden sm:inline">Speakers</span>
           </Link>
-
+          {/**TODO: Implement Agenda*/}
           <Link
             ref={el => (linksRef.current[2] = el)}
             href="/#comingsoon"
+            onClick={() => setCurrentHash('#comingsoon')}
             aria-label="Agenda"
-            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/#agenda', '/agenda')
+            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/#agenda', '#agenda', '/#comingsoon', '#comingsoon')
               ? 'text-white'
               : 'hover:text-white hover:bg-white/5'
               }`}
@@ -166,21 +170,10 @@ export default function Navbar() {
             <span className="hidden sm:inline">Agenda</span>
           </Link>
 
-          {/* <Link
-            href="/leaderboard"
-            aria-label="Leaderboard"
-            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/leaderboard')
-              ? 'text-white bg-white/10'
-              : 'hover:text-white hover:bg-white/10'
-              }`}
-          >
-            <Icons.Sparkle />
-            <span className="hidden sm:inline">Leaderboard</span>
-          </Link> */}
-
           <Link
             ref={el => (linksRef.current[3] = el)}
             href="/teams"
+            onClick={() => setCurrentHash('')}
             aria-label="Teams"
             className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/teams')
               ? 'text-white'

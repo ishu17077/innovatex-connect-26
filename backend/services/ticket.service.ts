@@ -4,7 +4,7 @@ import Notification from "../models/Notification";
 import {
   PAYMENT_STATUSES,
   TICKET_STATUS,
-  TWENTY_FOUR_HOURS_IN_MS
+  TICKET_TIME_REMAINING_IN_MS
 } from "../config/constants.js";
 import { number } from "zod/v4";
 import { RazorPayApi } from "../config/payment_config";
@@ -64,7 +64,7 @@ export async function getUserTicketService(userId: string) {
   if (!ticket) {
     return ticket
   }
-  if (ticket.status === TICKET_STATUS.PAYMENT_REQUIRED && hasExceed24Hours(ticket?.approvedAt)) {
+  if (ticket.status === TICKET_STATUS.PAYMENT_REQUIRED && hasExceedTicketAcceptanceTime(ticket?.approvedAt)) {
     ticket = await Ticket.findByIdAndUpdate(ticket?._id, { $set: { status: TICKET_STATUS.INVITATION_EXPIRED } })
   }
   return ticket
@@ -90,7 +90,7 @@ export async function createOrderService(user: Omit<InferSchemaType<typeof User.
     throw error
   }
 
-  if (hasExceed24Hours(existingTicket.approvedAt)) {
+  if (hasExceedTicketAcceptanceTime(existingTicket.approvedAt)) {
     const error = Error(`Invitation expired as 24 hours exceeded`) as Error & { statusCode: number }
     error.statusCode = 401
     throw error
@@ -125,6 +125,6 @@ export async function createOrderService(user: Omit<InferSchemaType<typeof User.
   return order
 }
 
-export function hasExceed24Hours(time: Date | undefined | null) {
-  return (new Date()).getTime() - (time || new Date()).getTime() > TWENTY_FOUR_HOURS_IN_MS
+export function hasExceedTicketAcceptanceTime(time: Date | undefined | null) {
+  return (new Date()).getTime() - (time || new Date()).getTime() > TICKET_TIME_REMAINING_IN_MS
 }
