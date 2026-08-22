@@ -27,7 +27,7 @@ function CountdownTimer({ approvedAt }) {
   useEffect(() => {
     if (!approvedAt) return;
 
-    const expiryTime = new Date(approvedAt).getTime() + 24 * 60 * 60 * 1000;
+    const expiryTime = new Date(approvedAt).getTime() + Number(process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS) ?? 24 * 60 * 60 * 1000;
 
     const updateTimer = () => {
       const now = new Date().getTime();
