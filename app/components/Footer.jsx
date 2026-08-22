@@ -75,7 +75,7 @@ export default function Footer() {
             <h4 className="text-white font-extrabold text-sm uppercase tracking-widest mb-6">Event Details</h4>
 
             <div className="flex flex-col gap-5">
-              <div className="flex items-start gap-4 group">
+              <a href="https://www.google.com/maps/dir//JIS+UNIVERSITY,+81,+Nilgunj+Rd,+Jagarata+Pally,+Deshpriya+Nagar,+Agarpara,+Kolkata,+West+Bengal+700109/@22.6763177,88.3770407,402m/data=!3m1!1e3!4m17!1m7!3m6!1s0x39f89c46c06efd83:0x36a29a26ce825e99!2sJIS+UNIVERSITY!8m2!3d22.6759713!4d88.3783425!16s%2Fm%2F0138jwhb!4m8!1m0!1m5!1m1!1s0x39f89c46c06efd83:0x36a29a26ce825e99!2m2!1d88.3783425!2d22.6759713!3e2?entry=ttu&g_ep=EgoyMDI2MDgxOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#EE4B15] group-hover:bg-[#EE4B15] group-hover:text-white transition-all duration-300 shrink-0 shadow-lg">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -88,7 +88,7 @@ export default function Footer() {
                     JIS University, Agarpara<br />Kolkata, West Bengal
                   </p>
                 </div>
-              </div>
+              </a>
 
               <div className="flex items-start gap-4 group">
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#EE4B15] group-hover:bg-[#EE4B15] group-hover:text-white transition-all duration-300 shrink-0 shadow-lg">
