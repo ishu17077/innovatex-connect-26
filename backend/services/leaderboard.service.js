@@ -19,6 +19,10 @@ export async function getLeaderboardService(isAdmin = false) {
         partnerId: partner._id,
         status: TICKET_STATUS.APPROVED,
       });
+      const paymentPendingReferrals = await Referral.countDocuments({
+        partnerId: partner._id,
+        status: TICKET_STATUS.PAYMENT_REQUIRED,
+      });
 
       return {
         partner: {
@@ -30,6 +34,7 @@ export async function getLeaderboardService(isAdmin = false) {
         },
         totalReferrals,
         approvedReferrals,
+        paymentPendingReferrals,
       };
     })
   );
