@@ -6,9 +6,8 @@ import {
   TICKET_STATUS,
   TICKET_TIME_REMAINING_IN_MS
 } from "../config/constants.js";
-import { number } from "zod/v4";
 import { RazorPayApi } from "../config/payment_config";
-import { InferSchemaType, Model, ObjectId } from "mongoose";
+import { InferSchemaType, ObjectId } from "mongoose";
 import { Orders } from "razorpay/dist/types/orders";
 import Payment from "../models/payment"
 

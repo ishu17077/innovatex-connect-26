@@ -9,8 +9,8 @@ import crypto from "crypto"
 export async function generateOTPForRegisteredUsers({ email }: { email: string }): Promise<{ otp: string, name: string, email: string }> {
     try {
         const totalMailsSent = await redisClient.get("mails_sent") ?? "0";
-        if (parseInt(totalMailsSent, 10) > 120) {
-            const error = new Error(`Cannot send OTP right now, please try Google Sign In.`) as Error & { statusCode: number };
+        if (parseInt(totalMailsSent, 10) > 100) {
+            const error = new Error(`Our mail servers are busy right now, please use Google Sign In with same email`) as Error & { statusCode: number };
             error.statusCode = 429;
             throw error;
         }
@@ -52,7 +52,7 @@ export async function generateOTPForOnboardingUsers({ email }: { email: string }
     try {
         const totalMailsSent = await redisClient.get("mails_sent") ?? "0";
         if (parseInt(totalMailsSent, 10) > 120) {
-            const error = new Error(`Cannot send OTP right now, please try Google Sign In.`) as Error & { statusCode: number };
+            const error = new Error(`Our mail servers are busy right now, please use Google Sign In.`) as Error & { statusCode: number };
             error.statusCode = 429;
             throw error;
         }
