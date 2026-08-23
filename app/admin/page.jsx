@@ -335,7 +335,7 @@ export default function AdminDashboardPage() {
                       className="w-full sm:w-auto px-4 py-2 text-xs font-bold rounded-lg bg-[#2E6CFF] hover:bg-[#2E6CFF]/80 text-white transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
                       Export CSV
                     </button>
-                    <div className="flex items-center gap-1.5 p-1 !bg-[#090D2B] rounded-xl w-full sm:w-auto">
+                    <div className="flex-1 items-center gap-1.5 p-1 bg-brand-bg! rounded-xl w-full sm:w-auto ">
                       {['Pending', 'Approved', 'Rejected', "Payment Required", "Invitation Expired"].map((s) => (
                         <button key={s} onClick={() => setTicketFilter(s)}
                           className={`flex-1 sm:flex-initial px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${ticketFilter === s ? 'bg-[#EE4B15] text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}>
