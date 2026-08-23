@@ -4,12 +4,25 @@ export const speakersList = [
     role: 'CYBERSECURITY AND DEVOPS LEAD',
     company: 'Senrysa Technologies Ltd.',
     image: '/imran-roshan.jpeg',
+    imagePosition: 'center 15%',
+    scale: 1.3,
   },
   {
     name: 'AVIK AGARWALA',
     role: 'AI ENGINEER',
     company: 'TCS',
     image: '/avik-agarwala.jpeg',
+    imagePosition: '65% 18%',
+    scale: 1.4,
+  },
+  {
+    name: 'SAUGATA SARKAR',
+    role: 'DEVELOPER',
+    company: 'Hyland',
+    workshop: 'Harness Engineering',
+    image: '/saugata-sarkar.jpeg',
+    imagePosition: 'center 20%',
+    scale: 1.25,
   },
 ];
 
