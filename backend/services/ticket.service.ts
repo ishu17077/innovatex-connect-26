@@ -84,14 +84,17 @@ export async function createOrderService(user: Omit<InferSchemaType<typeof User.
     throw error
   }
 
-  if (existingTicket.status != TICKET_STATUS.PAYMENT_REQUIRED) {
+  if (existingTicket.status != TICKET_STATUS.PAYMENT_REQUIRED && existingTicket.status != TICKET_STATUS.INVITATION_EXPIRED) {
     const error = Error(`Your ticket is in ${existingTicket.status} status`) as Error & { statusCode: number }
     error.statusCode = 400
     throw error
   }
 
-  if (hasExceedTicketAcceptanceTime(existingTicket.approvedAt)) {
-    const error = Error(`Invitation expired as 24 hours exceeded`) as Error & { statusCode: number }
+  if (existingTicket.status == TICKET_STATUS.INVITATION_EXPIRED || hasExceedTicketAcceptanceTime(existingTicket.approvedAt)) {
+    if (existingTicket.status !== TICKET_STATUS.INVITATION_EXPIRED) {
+      await Ticket.findByIdAndUpdate(existingTicket._id, { $set: { status: TICKET_STATUS.INVITATION_EXPIRED } })
+    }
+    const error = Error(`Invitation expired as ${process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS} hours exceeded`) as Error & { statusCode: number }
     error.statusCode = 401
     throw error
   }
