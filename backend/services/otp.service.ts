@@ -8,6 +8,12 @@ import crypto from "crypto"
 
 export async function generateOTPForRegisteredUsers({ email }: { email: string }): Promise<{ otp: string, name: string, email: string }> {
     try {
+        const totalMailsSent = await redisClient.get("mails_sent") ?? "0";
+        if (parseInt(totalMailsSent, 10) > 120) {
+            const error = new Error(`Cannot send OTP right now, please try Google Sign In.`) as Error & { statusCode: number };
+            error.statusCode = 429;
+            throw error;
+        }
         const user = await User.findOne({ email: email })
         if (!user) {
             throw new UserNotFoundError("User not found")
@@ -44,6 +50,12 @@ export async function generateOTPForRegisteredUsers({ email }: { email: string }
 
 export async function generateOTPForOnboardingUsers({ email }: { email: string }): Promise<string> {
     try {
+        const totalMailsSent = await redisClient.get("mails_sent") ?? "0";
+        if (parseInt(totalMailsSent, 10) > 120) {
+            const error = new Error(`Cannot send OTP right now, please try Google Sign In.`) as Error & { statusCode: number };
+            error.statusCode = 429;
+            throw error;
+        }
         await checkOTPAlreadySent(email);
         // const secret = generateSecret()
         // await redisClient.set(`secret:${email}`, secret, { expiration: { type: "EX", value: 600 } })

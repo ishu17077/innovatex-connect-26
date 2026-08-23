@@ -22,8 +22,11 @@ import {
 import {
   redirectToCorrectDashboard
 } from "../../../api/common/redirect_to_correct_dashboard"
+import {
+  asyncCacheHandler
+} from "@/backend/utils/asyncCacheHandler";
 
-export const GET = asyncDbHandler(async (req) => {
+export const GET = asyncDbHandler(async (req) => asyncCacheHandler(async (req) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return NextResponse.redirect(new URL(`/login`, req.url))
@@ -41,4 +44,4 @@ export const GET = asyncDbHandler(async (req) => {
     message: "Admin dashboard statistics retrieved successfully",
     data: dashboardData,
   });
-});
+})(req));

@@ -1,6 +1,7 @@
 import path from "path";
 import { brevoMailClient, mailtrapClient } from "../config/mail_config";
 import fs from "fs"
+import { redisClient } from "../config/redis_connection";
 
 const useMailtrap = process.env.USE_MAILTRAP
 export async function sendOTPMail({ name, email, otp }: { name: string, email: string, otp: string }): Promise<void> {
@@ -21,6 +22,7 @@ export async function sendOTPMail({ name, email, otp }: { name: string, email: s
             },
 
         })
+        await incrementMailCount()
         console.log(res.message_ids)
         return
     }
@@ -36,6 +38,7 @@ export async function sendOTPMail({ name, email, otp }: { name: string, email: s
             email: email,
         }
     })
+    await incrementMailCount()
     console.log(`OTP mail sent. ID: ${res.messageId}`)
 }
 
@@ -54,6 +57,7 @@ export async function sendPaymentMail({ name, email }: { name: string, email: st
                 }
             }
         })
+        await incrementMailCount()
         console.log(res.message_ids)
         return
     }
@@ -67,6 +71,7 @@ export async function sendPaymentMail({ name, email }: { name: string, email: st
             name: name,
         }
     })
+    await incrementMailCount()
     console.log(`OTP mail sent. ID: ${res.messageId}`)
 }
 
@@ -91,7 +96,6 @@ export async function sendTicketConfirmedMail({ name, email, ticket_number, atte
         socialTicketImageBase64 = null
     }
     if (useMailtrap) {
-
         const res = await mailtrapClient.send({
             from: {
                 email: "connect@innovatexcom.xyz",
@@ -113,6 +117,7 @@ export async function sendTicketConfirmedMail({ name, email, ticket_number, atte
             ] : [{ content: qr_code, filename: "ticket.png" },]
         })
         console.log(res.message_ids)
+        await incrementMailCount()
         return
     }
     const res = await brevoMailClient.transactionalEmails.sendTransacEmail({
@@ -135,5 +140,17 @@ export async function sendTicketConfirmedMail({ name, email, ticket_number, atte
             { content: socialTicketImageBase64, name: "InnovateX Connect-26-Ticket.png" }
         ] : [{ content: qr_code, name: "ticket.png", }]
     })
+    await incrementMailCount()
     console.log(`Ticket Confirmation mail sent. ID: ${res.messageId}`)
+}
+
+async function incrementMailCount() {
+    const mailCount = await redisClient.incr("mails_sent")
+    if (mailCount == 1) {
+        const now = new Date()
+        //? UTC TO IST - 5:30 hours since we are +5:30 ahead of utc /1000 is from milliseconds to seconds
+        let nextDayAtTwelveFourtySixInSeconds = Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 19, 16, 0, 0) / 1000)
+        nextDayAtTwelveFourtySixInSeconds = nextDayAtTwelveFourtySixInSeconds < Math.floor(now.getTime() / 1000) ? nextDayAtTwelveFourtySixInSeconds + 86400 : nextDayAtTwelveFourtySixInSeconds
+        await redisClient.expireAt("mails_sent", nextDayAtTwelveFourtySixInSeconds)
+    }
 }

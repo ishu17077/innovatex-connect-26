@@ -11,31 +11,36 @@ import {
 import {
   hasExceedTicketAcceptanceTime
 } from "../services/ticket.service";
+import {
+  redisClient
+} from "../config/redis_connection";
 
 export async function getAdminDashboardController() {
-  const totalUsers = await User.countDocuments();
-  const totalTickets = await Ticket.countDocuments();
-  const pendingTickets = await Ticket.countDocuments({
+  const [totalUsers,
+    totalTickets,
+    pendingTickets,
+    approvedTickets,
+    pendingPaymentTickets,
+    expiredTickets,
+    rejectedTickets,
+    checkedInCount,
+    foodCollectedCount,
+    totalMailsSentToday
+  ] = await Promise.all([User.countDocuments(), Ticket.countDocuments(), Ticket.countDocuments({
     status: TICKET_STATUS.PENDING
-  });
-  const approvedTickets = await Ticket.countDocuments({
+  }), Ticket.countDocuments({
     status: TICKET_STATUS.APPROVED
-  });
-  const pendingPaymentTickets = await Ticket.countDocuments({
+  }), Ticket.countDocuments({
     status: TICKET_STATUS.PAYMENT_REQUIRED
-  })
-  const expiredTickets = await Ticket.countDocuments({
+  }), Ticket.countDocuments({
     status: TICKET_STATUS.INVITATION_EXPIRED
-  })
-  const rejectedTickets = await Ticket.countDocuments({
+  }), Ticket.countDocuments({
     status: TICKET_STATUS.REJECTED
-  });
-  const checkedInCount = await Ticket.countDocuments({
+  }), Ticket.countDocuments({
     checkedIn: true
-  });
-  const foodCollectedCount = await Ticket.countDocuments({
+  }), Ticket.countDocuments({
     foodCollected: true
-  });
+  }), redisClient.get("mails_sent")])
 
   return {
     analytics: {
@@ -47,6 +52,7 @@ export async function getAdminDashboardController() {
       expiredTickets,
       pendingPaymentTickets,
       checkedInCount,
+      totalMailsSentToday: totalMailsSentToday ? parseInt(totalMailsSentToday, 10) : 0,
       foodCollectedCount,
     },
   };
@@ -85,6 +91,12 @@ export async function listTicketsController(status) {
 }
 
 export async function approveTicketController(ticketId, adminId) {
+  const totalMailsSent = await redisClient.get("mails_sent") ?? 0;
+  if (parseInt(totalMailsSent, 10) > 120) {
+    const error = new Error(`Cannot send extra mails, wait till 12:46 a.m., Total mails sent: ${totalMailsSent}/150`);
+    error.statusCode = 429;
+    throw error;
+  }
   const ticket = await Ticket.findById(ticketId).populate("userId");
   if (!ticket) {
     const error = new Error("Ticket not found");

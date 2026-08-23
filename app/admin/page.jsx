@@ -271,6 +271,7 @@ export default function AdminDashboardPage() {
                     { label: 'Approved(Unpaid)', value: analytics.pendingPaymentTickets || 0, color: 'text-red-400', border: 'border-red-500/20' },
                     { label: 'Approved Passes', value: analytics.approvedTickets || 0, color: 'text-emerald-400', border: 'border-emerald-500/20' },
                     { label: 'Rejected', value: analytics.rejectedTickets || 0, color: 'text-red-400', border: 'border-red-500/20' },
+                    { label: 'Total Mails Sent:', value: analytics.totalMailsSentToday || 0, color: 'text-yellow-400', border: 'border-red-500/20' },
                   ].map(({ label, value, color, border }) => (
                     <div key={label} className={`glass-card !bg-[#0C1235] rounded-2xl p-5 border ${border} shadow-md`}>
                       <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{label}</p>
