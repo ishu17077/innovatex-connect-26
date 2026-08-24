@@ -16,8 +16,11 @@ import {
 import {
   approveTicketController
 } from "@/backend/controllers/admin.controller.js";
+import {
+  asyncCacheHandler
+} from "@/backend/utils/asyncCacheHandler";
 
-export const POST = asyncDbHandler(async (req, context) => {
+export const POST = asyncDbHandler(async (req, context) => asyncCacheHandler(async (req) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;
@@ -39,4 +42,4 @@ export const POST = asyncDbHandler(async (req, context) => {
     message: "Ticket approved successfully and QR code generated",
     data: ticket,
   });
-});
+}));

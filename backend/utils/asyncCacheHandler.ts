@@ -9,7 +9,6 @@ export function asyncCacheHandler(handler: (req: NextRequest, context: unknown) 
             await RedisInstance()
             return await handler(req, context)
         } catch (error) {
-
             if (error instanceof redis.ErrorReply) {
                 console.error("Redis Connection Error:" + String(error))
                 return sendResponse({
