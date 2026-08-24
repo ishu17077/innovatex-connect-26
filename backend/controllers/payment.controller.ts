@@ -24,6 +24,10 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
     try {
         const payment = await findPaymentByOrderId(payload.payment.entity.order_id)
         if (event === "order.paid") {
+            if (payment.status === PAYMENT_STATUSES.SUCCESS) {
+                console.log(`Payment for Ticket ID: ${payment.ticketId} is already successful`)
+                return
+            }
             await Payment.findOneAndUpdate(payment._id, {
                 $set: {
                     amount: payload.payment.entity.amount,
@@ -74,8 +78,6 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
                         updatedAt: new Date(),
                     }
                 })
-
-
             }
         }
     } catch (e) {
