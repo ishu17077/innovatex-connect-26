@@ -104,6 +104,12 @@ export async function approveTicketController(ticketId, adminId) {
     throw error;
   }
 
+  if (ticket.status === TICKET_STATUS.APPROVED || ticket.status === TICKET_STATUS.PAYMENT_REQUIRED) {
+    const error = new Error(`Ticket already in ${ticket.status} state`)
+    error.statusCode = 403
+    throw error
+  }
+
   ticket.status = TICKET_STATUS.PAYMENT_REQUIRED;
   ticket.approvedBy = adminId;
   ticket.approvedAt = new Date();
