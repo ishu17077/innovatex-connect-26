@@ -18,14 +18,14 @@ async function findPaymentByOrderId(order_id: string) {
 
 export async function updatePaymentAndUpdateTicket(event: "order.paid" | "payment.failed", payload: PaymentCallbackData) {
     if (!payload.payment.entity) {
-        return
+        console.warn(`Something wrong with payload: ${payload}`)
+        throw Error("Payload error")
     }
-
     try {
         const payment = await findPaymentByOrderId(payload.payment.entity.order_id)
         if (event === "order.paid") {
             if (payment.status === PAYMENT_STATUSES.SUCCESS) {
-                console.log(`Payment for Ticket ID: ${payment.ticketId} is already successful`)
+                console.warn(`Payment for Ticket ID: ${payment.ticketId} is already successful`)
                 return
             }
             await Payment.findOneAndUpdate(payment._id, {
@@ -95,11 +95,12 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
             return
         }
         if (e instanceof MongooseError) {
-            return e
+            throw e
         }
+
         await Payment.create({ amount: payload.payment.entity.amount, completed_at: new Date(payload.payment.entity.created_at), order_id: payload.payment.entity.order_id ?? 'Not Found', payload: payload })
         console.error(e)
-
+        throw e
     }
 
 

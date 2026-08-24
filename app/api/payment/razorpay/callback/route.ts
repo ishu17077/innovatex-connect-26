@@ -5,7 +5,7 @@ import { sendResponse } from "@/backend/utils/sendResponse";
 import { NextRequest } from "next/server";
 import { validateWebhookSignature } from "razorpay/dist/utils/razorpay-utils";
 
-export async function POST(req: NextRequest,) {
+export async function POST(req: NextRequest) {
     return asyncDbHandler(asyncCacheHandler(async (req) => {
         const signature = req.headers.get("x-razorpay-signature") ?? ''
         const rawBody = await req.text()
