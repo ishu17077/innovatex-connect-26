@@ -26,6 +26,25 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
         if (event === "order.paid") {
             if (payment.status === PAYMENT_STATUSES.SUCCESS) {
                 console.warn(`Payment for Ticket ID: ${payment.ticketId} is already successful`)
+                if (!payment.mail_sent) {
+                    const ticket = await Ticket.findById(payment.ticketId).populate<{ userId: PopulatedUser }>("userId", "name email college company role phone github linkedin foodPreference bringingLaptop")
+                    if (!ticket) {
+                        throw new TicketNotFoundError()
+                    }
+                    const qrCodeUrl = ticket.qrCode ?? await generateQRCodeDataURL(ticket.ticketNumber)
+
+                    await sendTicketConfirmedMail({
+                        name: ticket.userId.name,
+                        attendee_type: ticket.userId.role,
+                        email: ticket.userId.email,
+                        organization: (ticket.userId.role === ROLES.STUDENT || ticket.userId.role === ROLES.WORKING_PROFESSIONAL ? ticket.userId.college : ticket.userId.role === "Community Partner" ? ticket.userId.name! : ticket.userId.company) ?? ticket.userId.college!,
+                        qr_code: qrCodeUrl.split(',')[1],
+                        ticket_number: ticket.ticketNumber,
+                        foodPreference: ticket.userId.foodPreference,
+                    })
+                    await Payment.findByIdAndUpdate(payment._id, { $set: { mail_sent: true } })
+                }
+
                 return
             }
             await Payment.findOneAndUpdate(payment._id, {
@@ -65,6 +84,7 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
                 ticket_number: ticket.ticketNumber,
                 foodPreference: ticket.userId.foodPreference,
             })
+            await Payment.findByIdAndUpdate(payment._id, { $set: { mail_sent: true } })
 
         } else {
             if (payment.status !== PAYMENT_STATUSES.SUCCESS || payment.status !== PAYMENT_STATUSES.FAILED) {
@@ -95,12 +115,15 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
             return
         }
         if (e instanceof MongooseError) {
-            throw e
+            console.error(e)
+            return new Error("Cannot connect to database")
         }
 
         await Payment.create({ amount: payload.payment.entity.amount, completed_at: new Date(payload.payment.entity.created_at), order_id: payload.payment.entity.order_id ?? 'Not Found', payload: payload })
         console.error(e)
-        throw e
+        const error = Error("Something went wrong, please try again") as Error & { statusCode: number }
+        error.statusCode = 500
+        throw error
     }
 
 

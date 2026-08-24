@@ -38,6 +38,10 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         required: true,
         index: true,
+    },
+    mail_sent: {
+        type: Boolean,
+        default: false,
     }
 }, { timestamps: true })
 
