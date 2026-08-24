@@ -117,7 +117,9 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
         }
         if (e instanceof MongooseError) {
             console.error(e)
-            return new Error("Cannot connect to database")
+            const error = new Error("Cannot connect to database") as Error & { statusCode: number }
+            error.statusCode = 500
+            return error
         }
 
         await Payment.create({ amount: payload.payment.entity.amount, completed_at: new Date(payload.payment.entity.created_at), order_id: payload.payment.entity.order_id ?? 'Not Found', payload: payload })
