@@ -20,7 +20,7 @@ import {
   asyncCacheHandler
 } from "@/backend/utils/asyncCacheHandler";
 
-export const POST = asyncDbHandler(async (req, context) => asyncCacheHandler(async (req) => {
+export const POST = asyncDbHandler(asyncCacheHandler(async (req, context) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;
