@@ -27,6 +27,7 @@ export async function updatePaymentAndUpdateTicket(event: "order.paid" | "paymen
             if (payment.status === PAYMENT_STATUSES.SUCCESS) {
                 console.warn(`Payment for Ticket ID: ${payment.ticketId} is already successful`)
                 if (!payment.mail_sent) {
+                    console.warn(`Trying mail again for Ticket ID: ${payment.ticketId}`)
                     const ticket = await Ticket.findById(payment.ticketId).populate<{ userId: PopulatedUser }>("userId", "name email college company role phone github linkedin foodPreference bringingLaptop")
                     if (!ticket) {
                         throw new TicketNotFoundError()
