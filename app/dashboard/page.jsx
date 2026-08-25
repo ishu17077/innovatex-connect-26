@@ -388,7 +388,7 @@ export default function UserDashboardPage() {
                   {data.ticket.approvedAt && (
                     <div className="mt-4 p-3 rounded-xl bg-red-500/10 border border-red-500/20">
                       <p className="text-red-300 text-xs font-medium text-center">
-                        Pay within 24 hours to confirm your spot.{" "}
+                        Pay within {process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS ?? 24} hours to confirm your spot.{" "}
                         <span className="font-bold">Failure to do so will result in your attendance not being counted.</span>
                       </p>
                       <p className="text-red-200 text-xs font-bold text-center mt-1">
