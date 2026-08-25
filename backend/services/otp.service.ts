@@ -51,7 +51,7 @@ export async function generateOTPForRegisteredUsers({ email }: { email: string }
 export async function generateOTPForOnboardingUsers({ email }: { email: string }): Promise<string> {
     try {
         const totalMailsSent = await redisClient.get("mails_sent") ?? "0";
-        if (parseInt(totalMailsSent, 10) > 120) {
+        if (parseInt(totalMailsSent, 10) > 130) {
             const error = new Error(`Our mail servers are busy right now, please use Google Sign In.`) as Error & { statusCode: number };
             error.statusCode = 429;
             throw error;
