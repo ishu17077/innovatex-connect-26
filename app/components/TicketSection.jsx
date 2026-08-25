@@ -4,11 +4,18 @@ import React from 'react';
 import { ticketBenefits } from '../data/constants';
 import GetTicketStore from '../state_management/ticket_store';
 import { useStore } from 'zustand';
+import { useEffect } from 'react';
 
 export default function TicketSection() {
+
   const store = GetTicketStore()
   const isAvailable = useStore(store, (s) => s.isAvailable)
   const redirectUrl = useStore(store, (s) => s.redirectUrl)
+  useEffect(() => {
+    if (!isAvailable) {
+      window.location.href = "/login"
+    }
+  })
   return (
     <div id="ticket" className="max-w-6xl mx-auto w-full mt-8 sm:mt-10 mb-16 sm:mb-20 text-center flex flex-col items-center px-3 sm:px-4 relative z-10">
       <span className="inline-block text-[10px] font-black text-[#EE4B15] uppercase tracking-[0.3em] mb-3 select-none">

@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { Icons } from './Icons';
+import { isTicketAvailable } from '../api/constants';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -16,6 +17,10 @@ export default function Navbar() {
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
   const linksRef = useRef([]);
   const [currentHash, setCurrentHash] = useState('');
+
+  const store = GetTicketStore()
+  const isAvailable = useStore(store, (s) => s.isAvailable)
+
 
   // Track hash changes on the client
   useEffect(() => {
@@ -213,7 +218,7 @@ export default function Navbar() {
             href={user ? (user.role === 'Admin' ? '/admin' : user.role === 'Community Partner' ? '/partner' : '/dashboard') : '/register'}
             className="flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full bg-[#EE4B15] text-white font-bold text-xs sm:text-sm hover:bg-[#EE4B15]/90 hover:shadow-[0_4px_20px_rgba(238,75,21,0.4)] transition-all duration-300 shadow-md cursor-pointer group"
           >
-            <span>{user ? 'Dashboard' : 'Register'}</span>
+            <span>{user ? 'Dashboard' : isTicketAvailable ? 'Register' : 'Login'}</span>
             <span className="text-sm group-hover:translate-x-0.5 transition-transform duration-200">→</span>
           </Link>
         </div>
