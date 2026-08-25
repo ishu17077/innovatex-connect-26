@@ -175,7 +175,7 @@ export async function googleLoginUser({
   });
   let isNewUser = false;
   if (!user) {
-    if (isTicketAvailable) {
+    if (!isTicketAvailable) {
       const error = new Error("Registrations closed. Thank you for cooperating with us")
       error.statusCode = 403
       throw error
