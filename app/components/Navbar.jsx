@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { Icons } from './Icons';
 import { isTicketAvailable } from '../api/constants';
+import GetTicketStore from '../state_management/ticket_store';
+import { useStore } from 'zustand';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
