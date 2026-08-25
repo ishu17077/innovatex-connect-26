@@ -27,7 +27,7 @@ import {
 } from "../../constants";
 
 export const POST = asyncCacheHandler(asyncDbHandler(async (req) => {
-  if (isTicketAvailable) {
+  if (!isTicketAvailable) {
     const error = new Error("Registrations closed. Thank you for your cooperation")
     error.statusCode = 403
     throw error
