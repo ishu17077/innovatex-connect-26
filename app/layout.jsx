@@ -112,8 +112,8 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${orbitron.variable} ${bbh.variable} ${bricolage.variable} ${blackHanSans.variable} ${roboto.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col"><TicketProvider>{children}</TicketProvider>  <script dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }} id="root-event-schema"
-        type="application/ld+json" strategy="afterInteractive" ></script>  <Navbar /></body>
+      <body className="min-h-full flex flex-col"><TicketProvider><Navbar />{children}</TicketProvider>  <script dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }} id="root-event-schema"
+        type="application/ld+json" strategy="afterInteractive" ></script>  </body>
 
     </html>
   );
