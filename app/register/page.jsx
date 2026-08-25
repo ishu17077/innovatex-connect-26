@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import { Icons } from '../components/Icons';
+import GetTicketStore from '../state_management/ticket_store';
+import { useStore } from 'zustand';
 
 function RegisterForm() {
   const router = useRouter();
@@ -634,6 +636,13 @@ function RegisterForm() {
 }
 
 export default function RegisterPage() {
+  const store = GetTicketStore()
+  const isAvailable = useStore(store, (s) => s.isAvailable)
+useEffect(() => {
+    if (!isAvailable) {
+      window.location.href = "/login"
+    }
+  })
   return (
     <div className="relative min-h-screen bg-[#090D2B] flex flex-col overflow-x-hidden font-display text-white">
       {/* Subtle background pattern */}
