@@ -110,6 +110,7 @@ export async function sendTicketConfirmedMail({ name, email, ticket_number, atte
                     "attendee_type": attendee_type,
                     "organization": organization,
                     "foodPreference": foodPreference,
+                    "TICKET_ACCEPTANCE_TIME_IN_HOURS": process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS ?? 24,
                 }
             }, attachments: socialTicketImageBase64 ? [
                 { content: qr_code, filename: "ticket.png" },
@@ -134,6 +135,7 @@ export async function sendTicketConfirmedMail({ name, email, ticket_number, atte
             organization: organization,
             qr_code: qr_code,
             foodPreference: foodPreference,
+            TICKET_ACCEPTANCE_TIME_IN_HOURS: process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS ?? 24,
         },
         attachment: socialTicketImageBase64 ? [
             { content: qr_code, name: "ticket.png", },
