@@ -65,13 +65,10 @@ export default function HeroSection() {
             aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
           >
             {!isAvailable && (
-              <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none select-none">
-                <img
-                  src="/sold_out.png"
-                  alt="Sold Out"
-                  className="w-[100px] opacity-95 drop-shadow-xl origin-top filter brightness-90 grayscale-[20%]"
-                  style={{ animation: 'swing-fixed 2.5s ease-in-out infinite' }}
-                />
+              <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#090D2B]/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
+                <div className="bg-[#EE4B15] text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 text-xl tracking-wide border border-white/20 whitespace-nowrap">
+                  SOLD OUT
+                </div>
               </div>
             )}
             <div className="font-blackhan uppercase leading-none tracking-tight text-[#0C1235] text-xl">
@@ -119,19 +116,10 @@ export default function HeroSection() {
                   aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
                 >
                   {!isAvailable && (
-                    <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none select-none">
-                      <style>{`
-                        @keyframes swing-fixed {
-                           0%, 100% { transform: rotate(-15deg); }
-                           50% { transform: rotate(-5deg); }
-                        }
-                      `}</style>
-                      <img
-                        src="/sold_out.png"
-                        alt="Sold Out"
-                        className="w-[100px] sm:w-[130px] md:w-[160px] drop-shadow-xl origin-top filter brightness-90 grayscale-[20%]"
-                        style={{ animation: 'swing-fixed 2.5s ease-in-out infinite' }}
-                      />
+                    <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#090D2B]/60 backdrop-blur-sm rounded-2xl sm:rounded-l-3xl sm:rounded-r-none pointer-events-none select-none">
+                      <div className="bg-[#EE4B15] text-[#F1FDFD] font-blackhan px-6 py-2 rounded-xl shadow-[0_0_25px_rgba(238,75,21,0.5)] transform -rotate-6 text-3xl sm:text-4xl tracking-wide border border-white/20 whitespace-nowrap">
+                        SOLD OUT
+                      </div>
                     </div>
                   )}
                   <div className="font-blackhan uppercase leading-[0.85] tracking-[-0.05em] text-[#0C1235] text-[clamp(1.75rem,3.5vw,3rem)]">
