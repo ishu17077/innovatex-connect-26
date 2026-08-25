@@ -1,6 +1,4 @@
 import Ticket from "../models/Ticket";
-import Attendance from "../models/Attendance";
-import FoodScan from "../models/FoodScan";
 import Notification from "../models/Notification";
 import { TICKET_STATUS } from "../config/constants.js";
 
