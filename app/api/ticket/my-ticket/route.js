@@ -1,9 +1,17 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
-import { authenticate } from "@/src/middlewares/auth.middleware.js";
-import { getMyTicketController } from "@/src/controllers/ticket.controller.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
+import {
+  authenticate
+} from "@/backend/middlewares/auth.middleware.js";
+import {
+  getMyTicketController
+} from "@/backend/controllers/ticket.controller.js";
 
-export const GET = asyncHandler(async (req) => {
+export const GET = asyncDbHandler(async (req) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;

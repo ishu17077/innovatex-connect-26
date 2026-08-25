@@ -1,11 +1,23 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
-import { authenticate } from "@/src/middlewares/auth.middleware.js";
-import { authorize } from "@/src/middlewares/role.middleware.js";
-import { ROLES } from "@/src/config/constants.js";
-import { listTicketsController } from "@/src/controllers/admin.controller.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
+import {
+  authenticate
+} from "@/backend/middlewares/auth.middleware.js";
+import {
+  authorize
+} from "@/backend/middlewares/role.middleware.js";
+import {
+  ROLES
+} from "@/backend/config/constants.js";
+import {
+  listTicketsController
+} from "@/backend/controllers/admin.controller.js";
 
-export const GET = asyncHandler(async (req) => {
+export const GET = asyncDbHandler(async (req) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;
@@ -16,11 +28,12 @@ export const GET = asyncHandler(async (req) => {
     return roleCheck.response;
   }
 
-  const { searchParams } = new URL(req.url);
+  const {
+    searchParams
+  } = new URL(req.url);
   const status = searchParams.get("status");
 
   const tickets = await listTicketsController(status);
-
   return sendResponse({
     success: true,
     statusCode: 200,

@@ -1,22 +1,50 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
-import { authenticate } from "@/src/middlewares/auth.middleware.js";
-import { authorize } from "@/src/middlewares/role.middleware.js";
-import { ROLES } from "@/src/config/constants.js";
-import { getPartnerDashboardController } from "@/src/controllers/partner.controller.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
+import {
+  authenticate
+} from "@/backend/middlewares/auth.middleware.js";
+import {
+  authorize
+} from "@/backend/middlewares/role.middleware.js";
+import {
+  ROLES
+} from "../../../../backend/config/constants";
+import {
+  getPartnerDashboardController
+} from "@/backend/controllers/partner.controller.js";
+import {
+  NextResponse
+} from "next/server";
+import {
+  redirectToCorrectDashboard
+} from "../../common/redirect_to_correct_dashboard";
 
-export const GET = asyncHandler(async (req) => {
+export const GET = asyncDbHandler(async (req) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
-    return authResult.response;
+    return NextResponse.redirect(new URL("/login", req.url))
   }
 
-  const roleCheck = authorize(ROLES.COMMUNITY_PARTNER, ROLES.ADMIN)(authResult.user);
+  const roleCheck = authorize(ROLES.COMMUNITY_PARTNER)(authResult.user);
   if (!roleCheck.authorized) {
-    return roleCheck.response;
+    return redirectToCorrectDashboard(authResult.user.role, req)
   }
 
   const dashboardData = await getPartnerDashboardController(authResult.user._id);
+  if (!dashboardData.partner.role || dashboardData.partner.role === ROLES.UNDEFINED) {
+    const options = {
+      email: dashboardData.partner.email,
+      name: dashboardData.partner.name,
+      provider: 'google',
+    }
+    const paramsUrl = new URLSearchParams(options)
+    const redirectToRegister = `${redirectHost}/register?${paramsUrl.toString()}`;
+    return NextResponse.redirect(redirectToRegister)
+  }
 
   return sendResponse({
     success: true,

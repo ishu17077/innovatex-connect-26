@@ -10,97 +10,171 @@ export default function HeroSection() {
   const redirectUrl = useStore(store, (state) => state.redirectUrl);
 
   const handleTicketClick = () => {
-    if (!isAvailable || typeof window === 'undefined') {
-      return;
-    }
-
-    if (redirectUrl.startsWith('http')) {
-      window.open(redirectUrl, '_blank', 'noopener,noreferrer');
-    } else {
-      window.location.href = redirectUrl;
-    }
+    window.location.href = redirectUrl;
   };
 
   return (
-    <section className="relative w-full min-h-screen h-250 overflow-hidden bg-[#090D2B] bg-grid-pattern text-[#F1FDFD]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(238,75,21,0.08),transparent_34%),radial-gradient(circle_at_80%_20%,rgba(241,253,253,0.05),transparent_28%),linear-gradient(180deg,rgba(6,10,36,0)_0%,rgba(6,10,36,0.32)_100%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-hero-sparkle opacity-70 pointer-events-none" />
+    <section id="home" className="relative w-full min-h-screen lg:h-screen flex flex-col justify-center overflow-hidden bg-[#090D2B] bg-grid-pattern text-[#F1FDFD] cursor-default select-none">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(238,75,21,0.12),transparent_40%),radial-gradient(circle_at_80%_20%,rgba(46,108,255,0.15),transparent_35%),linear-gradient(180deg,rgba(6,10,36,0)_0%,rgba(6,10,36,0.32)_100%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-hero-sparkle opacity-70 pointer-events-none animate-pulse-glow" />
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-350 flex-col px-5 pb-8 pt-24 sm:px-8 lg:px-12 lg:pt-28">
-        <div className="flex-1 lg:grid lg:grid-cols-[minmax(0,1.18fr)_minmax(320px,0.82fr)] lg:gap-8">
-          <div className="flex h-full flex-col gap-10 lg:gap-12">
-            <div className="max-w-190 h-full">
-              <div className="flex flex-col leading-none">
-                <div className="flex items-end gap-0 sm:gap-1 uppercase text-[#F1FDFD] font-bbh tracking-[-0.06em] drop-shadow-[0_12px_30px_rgba(0,0,0,0.35)]">
-                  <span className="text-[clamp(3.6rem,8vw,6rem)] mt-0 lg:mt-10 mr-5">INNOVATE</span>
-                  <span className="text-[clamp(5.1rem,12vw,20rem)] -mb-1 sm:-mb-3">X</span>
+      {/* MOBILE HERO VIEW (lg:hidden) */}
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-start px-5 pt-16 sm:pt-20 pb-6 lg:hidden text-center gap-2">
+        {/* Main Title Block */}
+        <div className="flex flex-col items-center leading-none mt-1 mb-2">
+          <div className="flex items-end justify-center gap-1 uppercase text-[#F1FDFD] font-bbh tracking-[-0.06em] drop-shadow-[0_10px_25px_rgba(0,0,0,0.4)]">
+            <span className="text-[clamp(3rem,12vw,4.8rem)] leading-none">INNOVATE</span>
+            <span className="text-[clamp(4.2rem,16vw,7rem)] -mb-1 leading-none text-[#EE4B15]">X</span>
+          </div>
+          <div className="mt-1.5 font-bricolage text-[#EE4B15] uppercase tracking-[-0.04em] leading-none text-[clamp(3.3rem,14vw,6rem)]">
+            CONNECT
+          </div>
+
+          {/* Centerpiece 2026 Graphic */}
+          <div className="my-2.5 flex flex-col items-center leading-none font-blackhan tracking-[-0.08em] select-none hover:scale-105 transition-transform duration-300">
+            <div className="text-[clamp(5.2rem,23vw,9rem)] leading-none">
+              <span className="text-[#EE4B15]">2</span>
+              <span className="text-[#F1FDFD]">0</span>
+            </div>
+            <div className="text-[clamp(5.2rem,23vw,9rem)] leading-none -mt-4">
+              <span className="text-[#F1FDFD]">2</span>
+              <span className="text-[#EE4B15]">6</span>
+            </div>
+          </div>
+
+          {/* Info Badges Row */}
+          <div className="flex items-center justify-center gap-2.5 mt-1 flex-wrap">
+            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0C1235]/90 px-3.5 py-2 shadow-md backdrop-blur-md">
+              <span className="font-blackhan uppercase text-sm leading-none text-[#F1FDFD]">SEPT</span>
+              <span className="font-bricolage text-sm leading-none font-light text-[#EE4B15]">05</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0C1235]/90 px-3.5 py-2 shadow-md backdrop-blur-md">
+              <span className="font-blackhan uppercase text-sm leading-none text-[#F1FDFD]">JIS</span>
+              <span className="font-bricolage text-xs leading-none text-[#EE4B15] font-bold">University, Kolkata</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="w-full max-w-sm flex flex-col gap-2.5 mt-1">
+          <button
+            type="button"
+            onClick={handleTicketClick}
+            disabled={!isAvailable}
+            className={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl bg-[#F1FDFD] px-5 py-3.5 shadow-xl transition-all ${isAvailable ? 'cursor-pointer active:scale-98' : 'cursor-not-allowed opacity-85'}`}
+            aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
+          >
+            {!isAvailable && (
+              <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#090D2B]/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
+                <div className="bg-[#EE4B15] text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 text-xl tracking-wide border border-white/20 whitespace-nowrap">
+                  SOLD OUT
                 </div>
-                <div className="-ml-2 mt-10 max-w-fit font-bricolage text-[#EE4B15] uppercase tracking-[-0.04em] leading-none text-[clamp(4rem,11vw,20rem)] drop-shadow-[0_10px_25px_rgba(0,0,0,0.3)] sm:mt-10">
+              </div>
+            )}
+            <div className="font-blackhan uppercase leading-none tracking-tight text-[#0C1235] text-xl">
+              GET YOUR TICKET
+            </div>
+            <img src="/tickets.svg" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" />
+          </button>
+
+          <a
+            href="https://chat.whatsapp.com/L4X2PkdD8v49MSI1iEWUcu"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl bg-[#0C1235] px-5 py-3.5 text-[#F1FDFD] border border-white/15 shadow-xl transition-all active:scale-98"
+          >
+            <div className="flex items-center gap-3">
+              <span className="font-bricolage text-xl leading-none tracking-tight text-[#F1FDFD]">JOIN</span>
+              <span className="font-bricolage text-xs uppercase leading-tight text-[#EE4B15] font-bold">WHATSAPP COMMUNITY</span>
+            </div>
+            <span className="text-lg">→</span>
+          </a>
+        </div>
+      </div>
+
+      {/* DESKTOP HERO VIEW (hidden lg:flex) - 100% UNCHANGED */}
+      <div className="relative z-10 mx-auto hidden lg:flex w-full max-w-7xl flex-col px-4 sm:px-8 lg:px-12 pb-4 sm:pb-8 lg:pb-12 pt-20 sm:pt-28">
+        <div className="flex-1 lg:grid lg:grid-cols-[minmax(0,1.18fr)_minmax(300px,0.82fr)] lg:gap-8 items-center">
+          <div className="flex h-full flex-col justify-center gap-6 lg:gap-8 pt-0 lg:pt-2">
+            <div className="max-w-xl w-full">
+              <div className="flex flex-col leading-none">
+                <div className="flex items-end gap-0 sm:gap-1 uppercase text-[#F1FDFD] font-bbh tracking-[-0.06em] drop-shadow-[0_12px_30px_rgba(0,0,0,0.35)] flex-wrap sm:flex-nowrap">
+                  <span className="text-[clamp(2.5rem,7vw,5.5rem)] leading-none">INNOVATE</span>
+                  <span className="text-[clamp(3.8rem,10vw,14rem)] -mb-1 sm:-mb-3 leading-none text-[#EE4B15]">X</span>
+                </div>
+                <div className="-ml-1 sm:-ml-2 mt-4 sm:mt-6 max-w-fit font-bricolage text-[#EE4B15] uppercase tracking-[-0.04em] leading-none text-[clamp(2.8rem,9vw,13rem)]">
                   CONNECT
                 </div>
               </div>
 
-              <div className="mt-8 flex w-full flex-col gap-0 sm:flex-row sm:items-stretch">
+              <div className="mt-8 flex w-full flex-col sm:flex-row gap-3 sm:gap-0 sm:items-stretch">
                 <button
                   type="button"
                   onClick={handleTicketClick}
                   disabled={!isAvailable}
-                  className={`group flex flex-1 items-center gap-6 rounded-3xl bg-[#F1FDFD] px-4 py-4 text-left shadow-[0_24px_70px_rgba(0,0,0,0.4)] transition-transform duration-300 hover:-translate-y-0.5 sm:px-5 sm:py-5 ${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed opacity-85'}`}
+                  className={`group relative overflow-hidden flex flex-1 items-center justify-between sm:justify-start gap-4 sm:gap-6 rounded-2xl sm:rounded-l-3xl sm:rounded-r-none bg-[#F1FDFD] px-5 py-4 shadow-[0_24px_70px_rgba(0,0,0,0.4)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(46,108,255,0.3)] ${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed opacity-85'}`}
                   aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
                 >
-                  <div className="font-blackhan uppercase leading-[0.82] tracking-[-0.06em] text-[#0C1235] text-[clamp(2.1rem,4.6vw,3.2rem)]">
+                  {!isAvailable && (
+                    <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#090D2B]/60 backdrop-blur-sm rounded-2xl sm:rounded-l-3xl sm:rounded-r-none pointer-events-none select-none">
+                      <div className="bg-[#EE4B15] text-[#F1FDFD] font-blackhan px-6 py-2 rounded-xl shadow-[0_0_25px_rgba(238,75,21,0.5)] transform -rotate-6 text-3xl sm:text-4xl tracking-wide border border-white/20 whitespace-nowrap">
+                        SOLD OUT
+                      </div>
+                    </div>
+                  )}
+                  <div className="font-blackhan uppercase leading-[0.85] tracking-[-0.05em] text-[#0C1235] text-[clamp(1.75rem,3.5vw,3rem)]">
                     <div>GET</div>
                     <div>YOUR</div>
                   </div>
-                  <img src="/tickets.svg" alt="" aria-hidden="true" className="h-14 w-14 shrink-0 " />
+                  <img src="/tickets.svg" alt="" aria-hidden="true" className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-200/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 </button>
 
                 <a
-                  href="https://chat.whatsapp.com"
+                  href="https://chat.whatsapp.com/L4X2PkdD8v49MSI1iEWUcu"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-1 items-center rounded-r-3xl bg-[#0C1235] px-4 py-4 text-[#F1FDFD] shadow-[0_24px_70px_rgba(0,0,0,0.4)] transition-transform duration-300 hover:-translate-y-0.5 sm:px-5 sm:py-5"
+                  className="group relative overflow-hidden flex flex-1 items-center justify-between sm:justify-start gap-4 rounded-2xl sm:rounded-r-3xl sm:rounded-l-none bg-[#0C1235] px-5 py-4 text-[#F1FDFD] border border-white/10 sm:border-l-0 shadow-[0_24px_70px_rgba(0,0,0,0.4)] transition-all duration-500 hover:-translate-y-1 hover:border-indigo-400/30"
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="font-bricolage text-[clamp(2rem,4.2vw,3.4rem)] leading-none tracking-[-0.08em] text-[#F1FDFD]">JOIN</span>
-                    <div className="font-bricolage text-[clamp(0.75rem,1.2vw,1rem)] uppercase leading-[0.9] tracking-[-0.03em]">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <span className="font-bricolage text-[clamp(1.75rem,3.5vw,3rem)] leading-none tracking-[-0.06em] text-[#F1FDFD] group-hover:text-[#EE4B15] transition-colors">JOIN</span>
+                    <div className="font-bricolage text-[clamp(0.7rem,1vw,0.95rem)] uppercase leading-[0.95] tracking-[-0.02em]">
                       <div>OUR</div>
                       <div>WHATSAPP</div>
                       <div className="text-[#EE4B15]">COMMUNITY</div>
                     </div>
                   </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col items-end justify-between gap-10 lg:mt-0 lg:pt-0">
-            {/* <div className="hidden lg:block" /> */}
-
-            <div className="w-full self-end lg:mt-auto">
-              <div className="flex flex-col items-end leading-none uppercase font-blackhan tracking-[-0.08em] text-[#EE4B15] select-none  ">
-                <span className="text-[clamp(8rem,24vw,50rem)] mb-[-20%]">
-                    <span className="text-[#EE4B15]">2</span>
-                    <span className="text-[#F1FDFD]">0</span>
+          <div className="mt-8 lg:mt-0 flex flex-col items-center lg:items-end justify-between gap-6 lg:gap-10">
+            <div className="w-full self-center lg:self-end lg:mt-auto">
+              <div className="flex flex-col items-center lg:items-end leading-none uppercase font-blackhan tracking-[-0.08em] select-none hover:scale-105 transition-transform duration-500">
+                <span className="text-[clamp(4.5rem,16vw,25rem)] leading-none">
+                  <span className="text-[#EE4B15]">2</span>
+                  <span className="text-[#F1FDFD]">0</span>
                 </span>
-                <span className="text-[clamp(8rem,24vw,50rem)]">
+                <span className="text-[clamp(4.5rem,16vw,25rem)] leading-none -mt-4 sm:-mt-8 lg:-mt-12">
                   <span className="text-[#F1FDFD]">2</span>
                   <span className="text-[#EE4B15]">6</span>
                 </span>
               </div>
             </div>
 
-            <div className="flex w-full flex-wrap justify-end gap-4 pt-2 sm:gap-5 lg:pt-0">
-              <div className="flex items-center gap-3 rounded-[10px] border border-white/10 bg-[#0C1235]/80 px-5 py-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md sm:px-6 sm:py-4">
-                <span className="font-blackhan uppercase text-[clamp(2.2rem,4vw,3.1rem)] leading-none tracking-tighter text-[#F1FDFD]">SEPT</span>
-                <span className="font-bricolage text-[clamp(1.9rem,3vw,2.5rem)] leading-none font-light text-[#F1FDFD]">05</span>
+            <div className="flex w-full flex-wrap justify-center lg:justify-end gap-3 sm:gap-4 pt-2 lg:pt-0">
+              <div className="flex items-center gap-2.5 sm:gap-3 rounded-xl border border-white/10 bg-[#0C1235]/80 px-4 py-3 sm:px-6 sm:py-4 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_15px_35px_rgba(46,108,255,0.2)] transition-all duration-300">
+                <span className="font-blackhan uppercase text-[clamp(1.5rem,3vw,3rem)] leading-none tracking-tighter text-[#F1FDFD]">SEPT</span>
+                <span className="font-bricolage text-[clamp(1.3rem,2.5vw,2.4rem)] leading-none font-light text-[#EE4B15]">05</span>
               </div>
 
-              <div className="flex items-center gap-3 rounded-[10px] border border-white/10 bg-[#0C1235]/80 px-5 py-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md sm:px-6 sm:py-4">
-                <span className="font-blackhan uppercase text-[clamp(2.3rem,4vw,3.2rem)] leading-none tracking-tighter text-[#F1FDFD]">JIS</span>
-                <div className="font-bricolage text-[clamp(0.9rem,1.4vw,1.15rem)] leading-[0.95] text-[#F1FDFD]/82">
+              <div className="flex items-center gap-2.5 sm:gap-3 rounded-xl border border-white/10 bg-[#0C1235]/80 px-4 py-3 sm:px-6 sm:py-4 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_15px_35px_rgba(46,108,255,0.2)] transition-all duration-300">
+                <span className="font-blackhan uppercase text-[clamp(1.5rem,3vw,3rem)] leading-none tracking-tighter text-[#F1FDFD]">JIS</span>
+                <div className="font-bricolage text-[clamp(0.75rem,1.2vw,1.1rem)] leading-[0.95] text-[#F1FDFD]/85">
                   <div>University</div>
-                  <div>Kolkata</div>
+                  <div className="text-[#EE4B15] font-bold">Kolkata</div>
                 </div>
               </div>
             </div>

@@ -5,13 +5,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import { Icons } from '../components/Icons';
+import GetTicketStore from '../state_management/ticket_store';
+import { useStore } from 'zustand';
 
 export default function LoginPage() {
+  const store = GetTicketStore()
+  const isTicketsAvailable = useStore(store, (state) => state.isAvailable)
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -34,6 +39,9 @@ export default function LoginPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+      if (res.redirected) {
+        window.location.href = res.url;
+      }
 
       const data = await res.json();
 
@@ -56,41 +64,39 @@ export default function LoginPage() {
     }
   };
 
+  const inputClass = "w-full px-4 py-3 rounded-xl bg-[#090D2B] border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#EE4B15]/30 focus:border-[#EE4B15]/60 transition-all placeholder:text-slate-500";
+
   return (
-    <div className="relative min-h-screen bg-[#F8FAFC] bg-grid-pattern flex flex-col justify-between overflow-x-hidden font-display">
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-200/25 blur-[140px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-250/20 blur-[170px] pointer-events-none animate-pulse-glow" />
+    <div className="relative min-h-screen bg-[#090D2B] flex flex-col overflow-x-hidden font-display text-white">
+      {/* Subtle background pattern */}
+      <div className="fixed inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
 
-      <Navbar />
 
-      <main className="relative z-10 flex-1 flex items-center justify-center px-4 pt-32 sm:pt-36 pb-16">
+      <main className="relative z-10 flex-1 flex items-center justify-center px-4 pt-28 sm:pt-32 pb-12">
         <div className="w-full max-w-md">
-          <div className="glass-card bg-white/90 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200/80 relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-indigo-600 via-blue-500 to-purple-600" />
+          <div className="bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 relative overflow-hidden">
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#EE4B15] via-[#EE4B15]/80 to-[#EE4B15]/40" />
 
+            {/* Header */}
             <div className="text-center mb-6 pt-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60 mb-3">
-                <Icons.Ticket className="w-3.5 h-3.5" />
-                InnovateX Account
-              </span>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Welcome Back
+              <p className="text-white font-bold text-sm tracking-wide mb-1">InnovateX Connect&apos;26</p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Sign In
               </h1>
-              <p className="text-slate-600 text-xs sm:text-sm mt-1">
-                Log in to access your event dashboard & QR ticket
-              </p>
             </div>
 
             {error && (
-              <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping" />
+              <div className="mb-5 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-medium flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
                 {error}
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Email */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
                   Email Address
                 </label>
                 <input
@@ -99,30 +105,45 @@ export default function LoginPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50/80 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                  placeholder="you@example.com"
+                  className={inputClass}
                 />
               </div>
 
+              {/* Password */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
                   Password
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50/80 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className={inputClass}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#EE4B15] transition-colors"
+                  >
+                    {showPassword ? (
+                      <Icons.EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Icons.Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
               </div>
 
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 px-6 rounded-xl bg-[#1E1B4B] hover:bg-[#2E6CFF] text-white font-bold text-sm shadow-lg shadow-indigo-900/20 hover:shadow-blue-500/30 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="w-full py-3.5 px-6 rounded-xl bg-[#EE4B15] hover:bg-[#EE4B15]/90 text-white font-bold text-sm shadow-lg shadow-[#EE4B15]/15 hover:shadow-[#EE4B15]/30 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {loading ? (
                   <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -135,22 +156,48 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="relative w-full flex items-center justify-between my-6 select-none opacity-40">
-              <span className="text-slate-400 font-mono text-xs font-bold">+</span>
-              <div className="flex-1 h-px border-t border-dashed border-slate-400 mx-2" />
-              <span className="text-slate-400 font-mono text-xs font-bold">+</span>
+            {/* Divider */}
+            <div className="relative w-full flex items-center my-5">
+              <div className="flex-1 h-px bg-white/8" />
+              <span className="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">or</span>
+              <div className="flex-1 h-px bg-white/8" />
             </div>
 
-            <div className="text-center">
-              <p className="text-slate-600 text-xs">
-                Don't have an account yet?{' '}
+            {/* Google Sign-in */}
+            <a
+              href="/api/auth/google"
+              className="w-full py-3 px-6 mb-5 rounded-xl bg-[#090D2B] border border-white/10 hover:border-white/20 hover:bg-white/5 text-slate-200 font-bold text-sm transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+              </svg>
+              Continue with Google
+            </a>
+
+            {/* Register link */}
+            <div className="text-center mt-4">
+              {isTicketsAvailable && <p className="text-slate-400 text-xs">
+                Don&apos;t have an account?{' '}
                 <Link
                   href="/register"
-                  className="text-blue-600 hover:text-indigo-700 font-bold transition-colors"
+                  className="text-[#EE4B15] hover:text-[#EE4B15]/80 font-bold transition-colors"
                 >
                   Register Now
                 </Link>
-              </p>
+
+              </p>}
+              <div className="mt-4 text-center text-sm text-slate-400">
+                Can&apos;t remember your password?{' '}
+                <Link
+                  href="/login/forget-password"
+                  className="font-semibold text-indigo-600 hover:text-red-500 hover:underline transition-all duration-200 dark:text-red-400 dark:hover:text-red-300"
+                >
+                  Reset it here
+                </Link>
+              </div>
             </div>
           </div>
         </div>

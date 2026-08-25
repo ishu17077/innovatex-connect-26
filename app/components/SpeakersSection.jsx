@@ -1,95 +1,86 @@
+'use client';
+
 import React from 'react';
 import { speakersList } from '../data/constants';
 
-function SpeakerCard({ speaker }) {
+function SpeakerCard({ speaker, isSecond }) {
   return (
-    <div className="w-[280px] h-[400px] min-[390px]:w-[320px] min-[390px]:h-[440px] sm:w-[340px] sm:h-[470px] flex items-center justify-center relative">
-      <div className="scale-[0.8] min-[390px]:scale-[0.9] sm:scale-100 origin-center absolute">
-        <div className="relative w-[340px] h-[470px]">
-          <div className="absolute inset-0 rounded-[30px] bg-gradient-to-b from-white to-[#5D49E8] border border-slate-200/20 translate-x-[-20px] translate-y-[24px] rotate-[-6deg] shadow-sm z-0" />
-          <div className="absolute inset-0 rounded-[30px] bg-gradient-to-b from-white to-[#7054F6] border border-slate-200/40 translate-x-[-10px] translate-y-[12px] rotate-[-3deg] shadow-md z-10" />
-          <div className="relative w-full h-full rounded-[30px] bg-white border border-slate-200/80 shadow-[0_15px_45px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col z-20 group/card transition-all duration-[350ms] ease-out hover:-translate-y-3 hover:scale-[1.03] hover:shadow-[0_25px_50px_rgba(112,84,246,0.18)]">
-            <div className="relative w-full h-[275px] bg-white bg-graph-pattern overflow-hidden p-5 flex flex-col justify-between select-none">
-              <div className="absolute top-12 left-5 w-4 h-4 text-[#8E73FF] opacity-60">
-                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z" /></svg>
-              </div>
-              <div className="absolute top-20 left-10 w-3 h-3 text-[#8E73FF] opacity-45">
-                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z" /></svg>
-              </div>
-              <span className="absolute top-10 left-3 text-[72px] font-black text-slate-100/90 tracking-tighter uppercase pointer-events-none select-none font-display">Speaker</span>
-              <div className="absolute top-5 right-5 flex flex-col items-end text-[7px] text-slate-400 font-bold leading-none z-30">
-                <span>hosted by <strong className="text-[#1E1B5D] text-[8px] font-black">InnovateX</strong></span>
-                <span className="mt-0.5">in association with <strong className="text-indigo-600 text-[8px] font-black">JIS-U</strong></span>
-              </div>
-              <img src="/souma.png" alt={speaker.name} className="absolute bottom-[-10px] left-4 w-[185px] h-[210px] object-cover object-top rounded-t-2xl z-30 grayscale group-hover/card:grayscale-0 transition-all duration-[350ms] ease-out" />
-              <div className="absolute bottom-6 right-5 text-right flex flex-col items-end z-30 max-w-[130px]">
-                <h4 className="text-base font-black text-[#1E1B5D] leading-tight tracking-tight">{speaker.name}</h4>
-                <span className="text-[8.5px] font-bold text-slate-400 mt-1.5 uppercase tracking-wider">{speaker.role}</span>
-              </div>
-            </div>
-            <div className="relative flex-1 bg-gradient-to-b from-[#846DFF] via-[#7054F6] to-[#5D49E8] overflow-visible">
-              <div className="absolute -top-[6px] left-0 w-full h-[12px] z-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 10px 0px, #FFF 5.5px, transparent 6px)', backgroundSize: '20px 12px', backgroundRepeat: 'repeat-x' }} />
-              <div className="absolute top-[-50px] left-4 w-[100px] h-[100px] rounded-full bg-gradient-to-b from-[#1E1B5D] to-[#2B2A8E] border-[5px] border-white shadow-[0_8px_20px_rgba(30,27,93,0.35)] flex flex-col items-center justify-center text-white z-50 group-hover/card:scale-108 group-hover/card:rotate-[4deg] transition-all duration-500 ease-out">
-                <div className="flex flex-col items-center justify-center text-center p-1 font-display select-none">
-                  <span className="text-[6.5px] text-indigo-300 font-extrabold uppercase tracking-widest leading-none">InnovateX</span>
-                  <span className="text-xs font-black tracking-tight leading-none mt-1">Connect</span>
-                  <span className="text-xs font-black tracking-tight leading-none mt-0.5">Meetup</span>
-                  <span className="text-[8px] font-extrabold text-indigo-200 mt-0.5 uppercase tracking-widest font-tech">2026</span>
-                </div>
-              </div>
-              <div className="pt-16 pb-5 px-5 h-full flex flex-col justify-between text-white relative z-30">
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex items-center gap-1.5 text-left">
-                    <svg className="w-3.5 h-3.5 text-indigo-200 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <span className="text-[7.2px] font-black text-indigo-150 uppercase tracking-wide leading-tight max-w-[130px]">INNOVATEX COMMUNITY&apos;S 8-HOUR MEETUP IN KOLKATA.</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-white shrink-0">
-                    <span className="text-[8.5px] font-black uppercase tracking-wider">Sept</span>
-                    <div className="bg-black/35 border border-white/10 px-1.5 py-0.5 rounded text-[10px] font-black tracking-widest font-tech leading-none">05</div>
-                    <span className="text-[6.5px] font-bold text-indigo-200 rotate-90 origin-center leading-none">2026</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1.5 items-end w-full">
-                  <div className="bg-black/20 border border-white/5 px-2.5 py-0.5 rounded-full text-[7px] font-bold tracking-wider uppercase text-indigo-100">JIS University, Agarpara, Kolkata</div>
-                  <div className="bg-black/45 border border-indigo-400/20 px-2.5 py-0.5 rounded-full text-[7.5px] font-black tracking-widest uppercase text-emerald-400">innovatex.community</div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="flex flex-col items-center w-[260px] sm:w-[275px] md:w-[285px] lg:w-[295px] shrink-0">
+
+      {/* Slanted Card Frame Container */}
+      <div className="relative w-full h-[300px] sm:h-[325px] md:h-[345px] mb-4">
+
+        {/* Orange Accent Frame (Top & Right Outline) */}
+        <div
+          className="absolute -top-2.5 -right-2.5 w-full h-full -skew-x-[11deg] rounded-[3px] border-[2px] border-[#EE4B15] pointer-events-none z-0"
+          aria-hidden="true"
+        />
+
+        {/* Foreground Photo Card (Slanted Parallelogram with subtle corner radius) */}
+        <div className="relative w-full h-full -skew-x-[11deg] rounded-[3px] overflow-hidden z-10 bg-[#0C1235] shadow-[0_12px_30px_rgba(0,0,0,0.6)]">
+          <img
+            src={speaker.image}
+            alt={speaker.name}
+            className={`w-full h-full object-cover skew-x-[11deg] ${isSecond
+              ? 'scale-[1.4] object-[65%_18%]'
+              : 'scale-[1.2] object-[center_15%]'
+              }`}
+          />
         </div>
       </div>
+
+      {/* Upright Text Information Below the Card */}
+      <div className="text-center flex flex-col items-center w-full px-2">
+        <h3 className="text-white font-bold text-sm sm:text-base md:text-lg tracking-wider uppercase font-sans">
+          {speaker.name}
+        </h3>
+        <p className="mt-1 text-[10px] sm:text-[11px] md:text-xs font-bold uppercase tracking-wider text-[#EE4B15]">
+          {speaker.role}
+        </p>
+        <p className="mt-0.5 text-[11px] sm:text-xs text-slate-400 font-medium tracking-wide">
+          {speaker.company}
+        </p>
+      </div>
+
     </div>
   );
 }
 
 export default function SpeakersSection() {
   return (
-    <div id="speakers" className="max-w-6xl mx-auto w-full mt-32 text-center flex flex-col items-center">
-      <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-indigo-100 bg-indigo-50/50 text-[10px] font-bold text-indigo-700 tracking-wider uppercase mb-6 shadow-sm">
-        <svg className="w-3.5 h-3.5 text-indigo-650 animate-pulse" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z" /></svg>
-        <span>Event Speakers</span>
-      </div>
-      <h2 className="text-4xl md:text-5xl font-extrabold text-slate-800 tracking-tight leading-[1.15]">
-        Learn from those who <br />
-        <span className="text-gradient-neon font-black">actually build.</span>
-      </h2>
-      <p className="text-slate-400 text-sm mt-4 max-w-xl font-medium leading-relaxed">
-        Our mentors and facilitators are here to guide you through your <strong className="text-slate-700">8-hour journey</strong> of <span className="text-indigo-650 font-bold">exploration and execution</span>.
-      </p>
-      <div className="flex flex-col items-center gap-16 md:gap-24 w-full mt-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20 justify-items-center w-full">
-          {speakersList.slice(0, 3).map((speaker, index) => (
-            <SpeakerCard key={index} speaker={speaker} />
-          ))}
+    <section id="speakers" className="relative z-10 w-full py-16 sm:py-20 md:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+
+        {/* Main Flex Row: Solid Orange Vertical SPEAKERS + Speaker Cards */}
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-10 lg:gap-12">
+
+          {/* Vertical "SPEAKERS" Solid Orange Typography */}
+          <div className="flex items-center justify-center shrink-0 select-none px-2 lg:px-0">
+            <h2
+              className="font-blackhan text-5xl sm:text-6xl md:text-7xl lg:text-[86px] leading-none lg:[writing-mode:vertical-lr] select-none tracking-[0.08em]"
+              style={{
+                color: 'transparent',
+                WebkitTextStroke: '2px #EE4B15',
+              }}
+            >
+              SPEAKERS
+            </h2>
+          </div>
+
+          {/* Speaker Cards Row */}
+          <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 sm:gap-7 md:gap-8 w-full max-w-5xl">
+            {speakersList.map((speaker, index) => (
+              <SpeakerCard
+                key={`${speaker.name}-${index}`}
+                speaker={speaker}
+                isSecond={index === 1}
+              />
+            ))}
+          </div>
+
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20 justify-items-center w-full max-w-4xl">
-          {speakersList.slice(3, 5).map((speaker, index) => (
-            <SpeakerCard key={index} speaker={speaker} />
-          ))}
-        </div>
+
       </div>
-    </div>
+    </section>
   );
 }

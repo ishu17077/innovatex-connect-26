@@ -1,11 +1,26 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
-import { authenticate } from "@/src/middlewares/auth.middleware.js";
-import { authorize } from "@/src/middlewares/role.middleware.js";
-import { ROLES } from "@/src/config/constants.js";
-import { approveTicketController } from "@/src/controllers/admin.controller.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
+import {
+  authenticate
+} from "@/backend/middlewares/auth.middleware.js";
+import {
+  authorize
+} from "@/backend/middlewares/role.middleware.js";
+import {
+  ROLES
+} from "@/backend/config/constants.js";
+import {
+  approveTicketController
+} from "@/backend/controllers/admin.controller.js";
+import {
+  asyncCacheHandler
+} from "@/backend/utils/asyncCacheHandler";
 
-export const POST = asyncHandler(async (req, context) => {
+export const POST = asyncDbHandler(asyncCacheHandler(async (req, context) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;
@@ -16,7 +31,9 @@ export const POST = asyncHandler(async (req, context) => {
     return roleCheck.response;
   }
 
-  const { id } = await context.params;
+  const {
+    id
+  } = await context.params;
   const ticket = await approveTicketController(id, authResult.user._id);
 
   return sendResponse({
@@ -25,4 +42,4 @@ export const POST = asyncHandler(async (req, context) => {
     message: "Ticket approved successfully and QR code generated",
     data: ticket,
   });
-});
+}));

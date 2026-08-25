@@ -1,15 +1,54 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
-import { authenticate } from "@/src/middlewares/auth.middleware.js";
-import { getUserDashboardController } from "@/src/controllers/user.controller.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
+import {
+  authenticate
+} from "@/backend/middlewares/auth.middleware.js";
+import {
+  getUserDashboardController
+} from "@/backend/controllers/user.controller.js";
+import {
+  NextResponse
+} from "next/server";
+import {
+  ROLES
+} from "../../../../backend/config/constants";
+import {
+  authorize
+} from "@/backend/middlewares/role.middleware.js";
+import {
+  redirectToCorrectDashboard
+} from "../../common/redirect_to_correct_dashboard";
 
-export const GET = asyncHandler(async (req) => {
+const isProd = process.env.NODE_ENV === "production";
+const redirectHost = isProd ? process.env.SITE_URL : "http://localhost:3000"
+
+
+export const GET = asyncDbHandler(async (req) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
-    return authResult.response;
+    return NextResponse.redirect(new URL(`/login`, req.url))
+  }
+  if (!authResult.user.role || authResult.user.role === ROLES.UNDEFINED) {
+    const options = {
+      email: authResult.user.email,
+      name: authResult.user.name,
+      provider: 'google',
+    }
+    const paramsUrl = new URLSearchParams(options)
+    const redirectToRegister = `${redirectHost}/register?${paramsUrl.toString()}`;
+    return NextResponse.redirect(redirectToRegister)
+  }
+  const roleCheck = authorize(ROLES.STUDENT, ROLES.WORKING_PROFESSIONAL)(authResult.user)
+  if (!roleCheck.authorized) {
+    return redirectToCorrectDashboard(authResult.user.role, req)
   }
 
   const dashboardData = await getUserDashboardController(authResult.user._id);
+
 
   return sendResponse({
     success: true,

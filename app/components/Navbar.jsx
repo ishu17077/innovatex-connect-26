@@ -1,16 +1,37 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Icons } from './Icons';
-
+import { isTicketAvailable } from '../api/constants';
+import GetTicketStore from '../state_management/ticket_store';
+import { useStore } from 'zustand';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
+
+  const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
+  const linksRef = useRef([]);
+  const [currentHash, setCurrentHash] = useState('');
+
+  const store = GetTicketStore()
+  const isAvailable = useStore(store, (s) => s.isAvailable)
+
+
+  // Track hash changes on the client
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCurrentHash(window.location.hash);
+    const handleHashChange = () => setCurrentHash(window.location.hash);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Fetch user profile to check auth state
   useEffect(() => {
@@ -29,6 +50,53 @@ export default function Navbar() {
     };
     fetchUser();
   }, []);
+
+  const isActive = (...paths) => {
+    if (!pathname) return false;
+    const currentPathWithHash = `${pathname}${currentHash}`;
+
+    return paths.some(path => {
+      // Special handling for home to not be active if we are on a different hash section
+      if (path === '/') {
+        return pathname === '/' && (!currentHash || currentHash === '#home');
+      }
+      return path === pathname || path === currentPathWithHash || path === currentHash;
+    });
+  };
+
+  useEffect(() => {
+    const updatePillPosition = () => {
+      // Find the index of the first path that is active
+      const activeIndex = [
+        isActive('/'),
+        isActive('/#speakers', '#speakers'),
+        //TODO: Implement
+        isActive('/#agenda', '#agenda', '/#comingsoon', '#comingsoon'),
+        isActive('/teams'),
+        isActive('/leaderboard')
+      ].findIndex(Boolean);
+
+      if (activeIndex !== -1 && linksRef.current[activeIndex]) {
+        const activeEl = linksRef.current[activeIndex];
+        setPillStyle({
+          left: activeEl.offsetLeft,
+          width: activeEl.offsetWidth,
+          opacity: 1
+        });
+      } else {
+        setPillStyle(prev => ({ ...prev, opacity: 0 }));
+      }
+    };
+
+    // A small timeout ensures fonts and layout are fully applied before measuring
+    const timeoutId = setTimeout(updatePillPosition, 50);
+    window.addEventListener('resize', updatePillPosition);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', updatePillPosition);
+    };
+  }, [pathname, currentHash]);
 
   const handleLogout = async () => {
     try {
@@ -54,126 +122,108 @@ export default function Navbar() {
 
   return (
     <header className="w-full flex justify-center pt-6 px-4 z-50 fixed top-0 left-0 right-0">
-      <nav className="flex items-center justify-between px-3 py-1.5 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold text-white shadow-lg bg-[#2B315C]/90 backdrop-blur-md border border-white/10">
-        
+      <nav className="flex items-center justify-between px-2.5 py-1.5 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold text-white shadow-lg bg-[#0C1235]/85 backdrop-blur-md border border-white/10 max-w-full">
+
         {/* Navigation Links */}
-        <div className="flex items-center space-x-1 sm:space-x-2">
-          <Link href="/" className="group flex items-center px-3 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-all">
+        <div className="flex items-center space-x-0.5 sm:space-x-2 relative">
+
+          {/* Sliding Background Pill */}
+          <div
+            className="absolute top-0 bottom-0 my-auto h-full bg-white/15 rounded-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            style={{
+              left: pillStyle.left,
+              width: pillStyle.width,
+              opacity: pillStyle.opacity,
+            }}
+          />
+
+          <Link
+            ref={el => (linksRef.current[0] = el)}
+            href="/#home"
+            onClick={() => setCurrentHash('#home')}
+            aria-label="Home"
+            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/')
+              ? 'text-white'
+              : 'hover:text-white hover:bg-white/5'
+              }`}
+          >
             <Icons.Home />
             <span className="hidden sm:inline">Home</span>
           </Link>
-          
-          <a href="#speakers" className="group flex items-center px-3 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-all">
+          { /*//TODO: Change this*/}
+          <Link
+            ref={el => (linksRef.current[1] = el)}
+            href="/#speakers"
+            onClick={() => setCurrentHash('#speakers')}
+            aria-label="Speakers"
+            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/#speakers', '#speakers')
+              ? 'text-white'
+              : 'hover:text-white hover:bg-white/5'
+              }`}
+          >
             <Icons.Speakers />
             <span className="hidden sm:inline">Speakers</span>
-          </a>
-
-          <a href="#agenda" className="group flex items-center px-3 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-all">
+          </Link>
+          {/**TODO: Implement Agenda*/}
+          {/* <Link
+            ref={el => (linksRef.current[2] = el)}
+            href="/#comingsoon"
+            onClick={() => setCurrentHash('#comingsoon')}
+            aria-label="Agenda"
+            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/#agenda', '#agenda', '/#comingsoon', '#comingsoon')
+              ? 'text-white'
+              : 'hover:text-white hover:bg-white/5'
+              }`}
+          >
             <Icons.Agenda />
             <span className="hidden sm:inline">Agenda</span>
-          </a>
+          </Link> */}
 
-          <Link href="/leaderboard" className="group flex items-center px-3 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-all">
-            <Icons.Sparkle />
-            <span className="hidden sm:inline">Leaderboard</span>
+          <Link
+            ref={el => (linksRef.current[3] = el)}
+            href="/teams"
+            onClick={() => setCurrentHash('')}
+            aria-label="Teams"
+            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/teams')
+              ? 'text-white'
+              : 'hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <svg className="w-4 h-4 mr-0 sm:mr-1.5 opacity-85 transition-colors group-hover:text-[#EE4B15]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span className="hidden sm:inline">Teams</span>
           </Link>
 
-          <a href="#ticket" className="group flex items-center px-3 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-all">
-            <Icons.Ticket />
-            <span className="hidden sm:inline">Ticket</span>
-          </a>
+          <Link
+            ref={el => (linksRef.current[4] = el)}
+            href="/leaderboard"
+            onClick={() => setCurrentHash('')}
+            aria-label="Leaderboard"
+            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/leaderboard')
+              ? 'text-white'
+              : 'hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <svg className="w-4 h-4 mr-0 sm:mr-1.5 opacity-85 transition-colors group-hover:text-[#EE4B15]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span className="hidden sm:inline">Leaderboard</span>
+          </Link>
         </div>
 
-        {/* Separator Dot */}
-        <div className="w-1 h-1 rounded-full bg-white/30 mx-2" />
+        {/* Separator Bar */}
+        <div className="w-px h-4 sm:h-5 bg-white/20 mx-1.5 sm:mx-2.5 shrink-0" />
 
-        {/* User Account / Auth Dropdown Trigger Button */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#090D2B] text-white hover:bg-[#EE4B15] transition-all duration-300 shadow-md cursor-pointer group"
-            aria-label="Account Menu"
+        {/* Register Button */}
+        <div className="relative shrink-0">
+          <Link
+            href={user ? (user.role === 'Admin' ? '/admin' : user.role === 'Community Partner' ? '/partner' : '/dashboard') : isTicketAvailable ? '/register' : '/login'}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full bg-[#EE4B15] text-white font-bold text-xs sm:text-sm hover:bg-[#EE4B15]/90 hover:shadow-[0_4px_20px_rgba(238,75,21,0.4)] transition-all duration-300 shadow-md cursor-pointer group"
           >
-            <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white">
-              <Icons.User className="w-3.5 h-3.5" />
-            </span>
-            <span className="text-xs font-bold hidden xs:inline pr-1">Account</span>
-            <svg
-              className={`w-3.5 h-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-
-          {/* Cool Glassmorphism Auth Dropdown Menu */}
-          {isOpen && (
-            <div className="absolute right-0 mt-3 w-56 bg-white/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-slate-200/80 animate-in fade-in slide-in-from-top-2 duration-200 z-50">
-              <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Account Access</p>
-                <p className="text-xs font-bold text-slate-800">InnovateX Connect '26</p>
-              </div>
-
-              <div className="space-y-1">
-                {loading ? (
-                  <div className="px-3 py-2 text-xs text-slate-500 font-medium text-center">Loading...</div>
-                ) : user ? (
-                  <>
-                    <Link
-                      href={
-                        user.role === 'Admin' ? '/admin' :
-                        user.role === 'Community Partner' ? '/partner' :
-                        '/dashboard'
-                      }
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all"
-                    >
-                      <Icons.Ticket className="w-3.5 h-3.5 text-slate-500" />
-                      <span>My Dashboard</span>
-                    </Link>
-
-                    <div className="h-px bg-slate-100 my-1" />
-
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700 transition-all cursor-pointer"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      <span>Logout</span>
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      href="/login"
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all"
-                    >
-                      <div className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                        <Icons.User className="w-3.5 h-3.5" />
-                      </div>
-                      <span>Sign In</span>
-                    </Link>
-
-                    <Link
-                      href="/register"
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-white bg-[#1E1B4B] hover:bg-[#2E6CFF] transition-all shadow-sm"
-                    >
-                      <div className="w-6 h-6 rounded-lg bg-white/20 text-white flex items-center justify-center">
-                        <Icons.UserCheck className="w-3.5 h-3.5" />
-                      </div>
-                      <span>Create Free Account</span>
-                    </Link>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
+            <span>{user ? 'Dashboard' : isTicketAvailable ? 'Register' : 'Login'}</span>
+            <span className="text-sm group-hover:translate-x-0.5 transition-transform duration-200">→</span>
+          </Link>
         </div>
 
       </nav>

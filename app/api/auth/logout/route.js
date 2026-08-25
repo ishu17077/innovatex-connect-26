@@ -1,7 +1,11 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
 
-export const POST = asyncHandler(async () => {
+export const POST = asyncDbHandler(async () => {
   const response = sendResponse({
     success: true,
     statusCode: 200,

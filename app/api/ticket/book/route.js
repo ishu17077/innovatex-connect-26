@@ -1,27 +1,44 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
-import { authenticate } from "@/src/middlewares/auth.middleware.js";
-import { validate } from "@/src/middlewares/validate.middleware.js";
-import { bookTicketSchema } from "@/src/validators/ticket.validator.js";
-import { bookTicketController } from "@/src/controllers/ticket.controller.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
+import {
+  authenticate
+} from "@/backend/middlewares/auth.middleware.js";
+import {
+  validate
+} from "@/backend/middlewares/validate.middleware.js";
+import {
+  bookTicketSchema
+} from "@/backend/validators/ticket.validator.js";
+import {
+  requestTicketController
+} from "@/backend/controllers/ticket.controller.js";
+import {
+  isTicketAvailable
+} from "../../constants";
 
-export const POST = asyncHandler(async (req) => {
+export const POST = asyncDbHandler(async (req) => {
+  if (!isTicketAvailable) {
+    const error = new Error("Registrations closed. Thank you for cooperating with us")
+    error.statusCode = 403
+    throw error
+  }
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;
   }
 
-  const validationResult = await validate(bookTicketSchema)(req);
-  if (!validationResult.success) {
-    return validationResult.response;
-  }
-
-  const ticket = await bookTicketController(authResult.user._id, validationResult.data);
+  const ticket = await requestTicketController(authResult.user._id, {
+    attendeeType: authResult.user.role ?? 'Student'
+  });
 
   return sendResponse({
     success: true,
     statusCode: 201,
-    message: "Free ticket request submitted successfully",
+    message: "Ticket request submitted successfully",
     data: ticket,
   });
 });

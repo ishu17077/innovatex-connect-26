@@ -1,11 +1,23 @@
-import { asyncHandler } from "@/src/utils/asyncHandler.js";
-import { sendResponse } from "@/src/utils/sendResponse.js";
-import { authenticate } from "@/src/middlewares/auth.middleware.js";
-import { authorize } from "@/src/middlewares/role.middleware.js";
-import { ROLES } from "@/src/config/constants.js";
-import { scanGateController } from "@/src/controllers/attendance.controller.js";
+import {
+  asyncDbHandler
+} from "@/backend/utils/asyncDbHandler.js";
+import {
+  sendResponse
+} from "@/backend/utils/sendResponse.js";
+import {
+  authenticate
+} from "@/backend/middlewares/auth.middleware.js";
+import {
+  authorize
+} from "@/backend/middlewares/role.middleware.js";
+import {
+  ROLES
+} from "@/backend/config/constants.js";
+import {
+  scanGateController
+} from "@/backend/controllers/attendance.controller.js";
 
-export const POST = asyncHandler(async (req) => {
+export const POST = asyncDbHandler(async (req) => {
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;
@@ -16,7 +28,10 @@ export const POST = asyncHandler(async (req) => {
     return roleCheck.response;
   }
 
-  const { ticketNumber, gate } = await req.json();
+  const {
+    ticketNumber,
+    gate
+  } = await req.json();
   if (!ticketNumber) {
     return sendResponse({
       success: false,
