@@ -54,6 +54,7 @@ export async function sendPaymentMail({ name, email }: { name: string, email: st
             template_variables: {
                 "params": {
                     name: name,
+                    TICKET_ACCEPTANCE_TIME_IN_HOURS: process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS ?? 24,
                 }
             }
         })
@@ -110,7 +111,6 @@ export async function sendTicketConfirmedMail({ name, email, ticket_number, atte
                     "attendee_type": attendee_type,
                     "organization": organization,
                     "foodPreference": foodPreference,
-                    "TICKET_ACCEPTANCE_TIME_IN_HOURS": process.env.NEXT_PUBLIC_TICKET_ACCEPTANCE_TIME_IN_HOURS ?? 24,
                 }
             }, attachments: socialTicketImageBase64 ? [
                 { content: qr_code, filename: "ticket.png" },
