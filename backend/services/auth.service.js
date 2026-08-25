@@ -21,6 +21,9 @@ import {
   verifyOTPForOnboardingUsers,
   verifyOTPForRegisteredUsers
 } from "./otp.service";
+import {
+  isTicketAvailable
+} from "@/app/api/constants";
 
 const emailSchema = z.string().trim().toLowerCase().email();
 const phoneRegExp = /^(?:\+91|91|0)?([6-9]\d{9})$/;
@@ -171,8 +174,12 @@ export async function googleLoginUser({
     email
   });
   let isNewUser = false;
-  console.log("GOOGLE USER PUTTING")
   if (!user) {
+    if (isTicketAvailable) {
+      const error = new Error("Registrations closed. Thank you for cooperating with us")
+      error.statusCode = 403
+      throw error
+    }
     user = await User.create({
       name,
       email: email,

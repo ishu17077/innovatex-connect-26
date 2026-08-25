@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
 
             const referralCode = cookieStore.get("ref")?.value;
             const { user, token, isNewUser } = await googleLoginUser({ name: userData.name, email: userData.email, referralCode, avatar: userData.picture });
-
+            
             const redirectUrl = new URL(isNewUser || !user.phone ? '/register' : '/dashboard', req.url);
             if (isNewUser || !user.phone) {
                 if (user.name) redirectUrl.searchParams.set('name', user.name);

@@ -11,8 +11,9 @@ interface TicketState {
 const TicketContext = createContext<TicketStore | null>(null)
 
 function createTicketStore() {
+    console.log(process.env.NEXT_PUBLIC_TICKET_AVAILABLE)
     return create<TicketState>(() => ({
-        isAvailable: (process.env.NEXT_PUBLIC_TICKET_AVAILABLE ?? 1) ? true : false,
+        isAvailable: (Number(process.env.NEXT_PUBLIC_TICKET_AVAILABLE ?? 1)) !== 0 ? true : false,
         redirectUrl: (process.env.NEXT_PUBLIC_TICKET_REDIRECT_URL ?? "/dashboard")
     }))
 }

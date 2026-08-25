@@ -22,9 +22,12 @@ import {
 import {
   redirectToCorrectDashboard
 } from "../../common/redirect_to_correct_dashboard";
+import {
+  isTicketAvailable
+} from "../../constants";
 
 export const POST = asyncCacheHandler(asyncDbHandler(async (req) => {
-  if (!process.env.NEXT_PUBLIC_TICKET_AVAILABLE) {
+  if (isTicketAvailable) {
     const error = new Error("Registrations closed. Thank you for your cooperation")
     error.statusCode = 403
     throw error

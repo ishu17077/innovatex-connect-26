@@ -16,8 +16,16 @@ import {
 import {
   requestTicketController
 } from "@/backend/controllers/ticket.controller.js";
+import {
+  isTicketAvailable
+} from "../../constants";
 
 export const POST = asyncDbHandler(async (req) => {
+  if (isTicketAvailable) {
+    const error = new Error("Registrations closed. Thank you for cooperating with us")
+    error.statusCode = 403
+    throw error
+  }
   const authResult = await authenticate(req);
   if (!authResult.authenticated) {
     return authResult.response;
