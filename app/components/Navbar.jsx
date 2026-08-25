@@ -218,7 +218,7 @@ export default function Navbar() {
         {/* Register Button */}
         <div className="relative shrink-0">
           <Link
-            href={user ? (user.role === 'Admin' ? '/admin' : user.role === 'Community Partner' ? '/partner' : '/dashboard') : '/register'}
+            href={user ? (user.role === 'Admin' ? '/admin' : user.role === 'Community Partner' ? '/partner' : '/dashboard') : isTicketAvailable ? '/register' : '/login'}
             className="flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full bg-[#EE4B15] text-white font-bold text-xs sm:text-sm hover:bg-[#EE4B15]/90 hover:shadow-[0_4px_20px_rgba(238,75,21,0.4)] transition-all duration-300 shadow-md cursor-pointer group"
           >
             <span>{user ? 'Dashboard' : isTicketAvailable ? 'Register' : 'Login'}</span>

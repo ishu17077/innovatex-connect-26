@@ -92,7 +92,7 @@ export async function listTicketsController(status) {
 
 export async function approveTicketController(ticketId, adminId) {
   const totalMailsSent = await redisClient.get("mails_sent") ?? 0;
-  if (parseInt(totalMailsSent, 10) > 130) {
+  if (parseInt(totalMailsSent, 10) > 125) {
     const error = new Error(`Cannot send extra mails, wait till 12:46 a.m., Total mails sent: ${totalMailsSent}/150`);
     error.statusCode = 429;
     throw error;
