@@ -1,4 +1,3 @@
-
 import HeroSection from './components/HeroSection';
 import WhyAttendSection from './components/WhyAttendSection';
 import AboutGrid from './components/AboutGrid';
@@ -10,6 +9,8 @@ import FaqSection from './components/FaqSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import ComingSoon from './components/ComingSoon';
+import GetTicketStore from './state_management/ticket_store';
+import { useStore } from 'zustand';
 
 function MarqueeBanner({ words, speed = 'normal', variant = 'default' }) {
   const repeated = [...words, ...words, ...words, ...words, ...words, ...words];
@@ -84,6 +85,7 @@ export default function Home() {
 
       {/* Ambient glow */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(238,75,21,0.06),transparent_50%)] pointer-events-none z-0" />
+
 
       {/* Header */}
 

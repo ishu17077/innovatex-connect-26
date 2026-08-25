@@ -7,9 +7,18 @@ import {
 import { sendResponse } from "@/backend/utils/sendResponse";
 import { generateOTPForOnboardingUsers } from "@/backend/services/otp.service";
 import { sendOTPMail } from "@/backend/services/mail.service";
+import { isTicketAvailable } from "@/app/api/constants";
 
 export async function POST(req: NextRequest) {
     return asyncCacheHandler(async (req: NextRequest, _context: unknown) => {
+        if (!isTicketAvailable) {
+            return sendResponse({
+                data: null,
+                message: "Ticket sales have ended",
+                statusCode: 403,
+                success: false
+            })
+        }
         const validRes = await validate(twoFARegSchema)(req)
         if (!validRes.success) {
             return validRes.response as NextResponse

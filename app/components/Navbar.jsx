@@ -26,6 +26,7 @@ export default function Navbar() {
 
   // Track hash changes on the client
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentHash(window.location.hash);
     const handleHashChange = () => setCurrentHash(window.location.hash);
     window.addEventListener('hashchange', handleHashChange);

@@ -5,8 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import { Icons } from '../components/Icons';
+import GetTicketStore from '../state_management/ticket_store';
+import { useStore } from 'zustand';
 
 export default function LoginPage() {
+  const store = GetTicketStore()
+  const isTicketsAvailable = useStore(store, (state) => state.isAvailable)
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
@@ -175,7 +179,7 @@ export default function LoginPage() {
 
             {/* Register link */}
             <div className="text-center mt-4">
-              <p className="text-slate-400 text-xs">
+              {isTicketsAvailable && <p className="text-slate-400 text-xs">
                 Don&apos;t have an account?{' '}
                 <Link
                   href="/register"
@@ -184,7 +188,7 @@ export default function LoginPage() {
                   Register Now
                 </Link>
 
-              </p>
+              </p>}
               <div className="mt-4 text-center text-sm text-slate-400">
                 Can&apos;t remember your password?{' '}
                 <Link
