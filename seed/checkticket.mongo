@@ -16,3 +16,27 @@ db.users.aggregate([
         ticketCount: 0,
     }}
 ])
+
+db.payments.aggregate([{$match:{
+    status:"SUCCESS",
+}}, {
+    $sort: {completed_at: -1}
+    },
+    {
+        $lookup:{
+            from: "tickets",
+            localField: "ticketId",
+            foreignField: "_id",
+            as: "ticket",
+            pipeline: [{$lookup: {from: "users", localField: "userId", foreignField: "_id", as: "user", pipeline: [{$project:{name: 1, _id: 0, email:1}}]}}, {$project: {ticketNumber:1, _id:0, user:1}}]
+            }
+        },
+    {$unwind:{path: "$ticket", preserveNullAndEmptyArrays: true}},
+    {$unwind:{path: "$ticket.user",preserveNullAndEmptyArrays: true}},
+    {$project:{
+        name: "$ticket.user.name",
+        email: "$ticket.user.email",
+        ticket_number: "$ticket.ticketNumber",
+        completed_at: 1,
+    }}
+])

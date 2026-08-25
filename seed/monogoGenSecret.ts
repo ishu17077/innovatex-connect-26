@@ -6,7 +6,6 @@ import 'dotenv/config'
 
 async function genSecret() {
 
-    console.log(process.env.MONGODB_URI)
     await mongoose.connect(process.env.MONGODB_URI!).then((mongooseInstance) => {
         return mongooseInstance;
     })

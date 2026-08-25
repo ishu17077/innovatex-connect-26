@@ -24,6 +24,11 @@ import {
 } from "../../common/redirect_to_correct_dashboard";
 
 export const POST = asyncCacheHandler(asyncDbHandler(async (req) => {
+  if (!process.env.NEXT_PUBLIC_TICKET_AVAILABLE) {
+    const error = new Error("Registrations closed. Thank you for your cooperation")
+    error.statusCode = 403
+    throw error
+  }
   const validationResult = await validate(registerSchema)(req);
   if (!validationResult.success) {
     return validationResult.response;

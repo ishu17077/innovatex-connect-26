@@ -149,8 +149,8 @@ async function incrementMailCount() {
     if (mailCount == 1) {
         const now = new Date()
         //? UTC TO IST - 5:30 hours since we are +5:30 ahead of utc /1000 is from milliseconds to seconds
-        let nextDayAtTwelveFourtySixInSeconds = Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 19, 16, 0, 0) / 1000)
-        nextDayAtTwelveFourtySixInSeconds = nextDayAtTwelveFourtySixInSeconds < Math.floor(now.getTime() / 1000) ? nextDayAtTwelveFourtySixInSeconds + 86400 : nextDayAtTwelveFourtySixInSeconds
-        await redisClient.expireAt("mails_sent", nextDayAtTwelveFourtySixInSeconds)
+        let nextDayAtTwelveFortySixInSeconds = Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 19, 16, 0, 0) / 1000)
+        nextDayAtTwelveFortySixInSeconds = nextDayAtTwelveFortySixInSeconds < Math.floor(now.getTime() / 1000) ? nextDayAtTwelveFortySixInSeconds + 86400 : nextDayAtTwelveFortySixInSeconds
+        await redisClient.expireAt("mails_sent", nextDayAtTwelveFortySixInSeconds)
     }
 }
