@@ -27,13 +27,6 @@ export async function scanGateAttendance({ ticketNumber, adminId, gate = "Main G
   ticket.checkedIn = true;
   await ticket.save();
 
-  const attendance = await Attendance.create({
-    userId: ticket.userId._id,
-    adminId,
-    gate,
-    scanTime: new Date(),
-  });
-
   await Notification.create({
     userId: ticket.userId._id,
     title: "Event Check-in Complete",
@@ -65,13 +58,6 @@ export async function scanFoodCollection({ ticketNumber, adminId, counter = "Foo
 
   ticket.foodCollected = true;
   await ticket.save();
-
-  const foodScan = await FoodScan.create({
-    userId: ticket.userId._id,
-    adminId,
-    counter,
-    scanTime: new Date(),
-  });
 
   await Notification.create({
     userId: ticket.userId._id,
