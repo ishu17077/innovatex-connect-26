@@ -3,6 +3,7 @@ import WhyAttendSection from './components/WhyAttendSection';
 import AboutGrid from './components/AboutGrid';
 import SpeakersSection from './components/SpeakersSection';
 import CommunityPartnersSection from './components/CommunityPartnersSection';
+import SponsorsSection from './components/SponsorsSection';
 import AgendaSection from './components/AgendaSection';
 import TicketSection from './components/TicketSection';
 import FaqSection from './components/FaqSection';
@@ -127,6 +128,9 @@ export default function Home() {
         variant="bold"
         speed="fast"
       /> */}
+
+      {/* Sponsors Section */}
+      <SponsorsSection />
 
       {/* Community Partners */}
       <CommunityPartnersSection />
