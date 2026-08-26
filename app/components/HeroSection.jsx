@@ -60,12 +60,12 @@ export default function HeroSection() {
         <div className="w-full max-w-sm flex flex-col gap-2.5 mt-1">
           <div className='relative sm:w-full'>
             {!isAvailable && (
-            <div className="absolute z-10 inset-0 flex items-center justify-center bg-brand-bg/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
-              <div className="bg-[#EE4B15] z-10 text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 sm:text-5xl md:text-5xl text-5xl tracking-wide border border-white/20 whitespace-nowrap">
-                SOLD OUT
+              <div className="absolute z-10 inset-0 flex items-center justify-center bg-brand-bg/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
+                <div className="bg-[#EE4B15] z-10 text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 text-5xl tracking-wide border border-white/20 whitespace-nowrap">
+                  SOLD OUT
+                </div>
               </div>
-            </div>
-          )}
+            )}
             <button
               type="button"
               onClick={handleTicketClick}
@@ -76,7 +76,7 @@ export default function HeroSection() {
               <div className="font-blackhan uppercase leading-none tracking-tight text-[#0C1235] text-xl">
                 GET YOUR TICKET
               </div>
-              <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" />
+              <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" width={100} height={100} />
             </button>
           </div>
           <a
@@ -128,7 +128,7 @@ export default function HeroSection() {
                     <div>GET</div>
                     <div>YOUR</div>
                   </div>
-                  <img src="/tickets.svg" alt="" aria-hidden="true" className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" />
+                  <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" height={100} width={100} />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-200/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 </button>
 
