@@ -1,80 +1,17 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
+import sponsers from "../../data/sponsers.json"
 
 type Sponsor = {
   name: string;
   website: string;
   logo: string;
+  category?: string | undefined,
 };
 
 type Tier = 'gold' | 'silver' | 'bronze' | 'inkind';
 
-const SPONSORS: Record<Tier, Sponsor[]> = {
-  gold: [
-    {
-      name: 'Proveniq',
-      website: 'www.proveniq.co.in',
-      logo: '/sponsers/proveniq.webp',
-    },
-    {
-      name: 'Miro',
-      website: 'https://miro.com/',
-      logo: '/sponsers/miro.jpeg',
-    },
-  ],
-
-  silver: [
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-  ],
-
-  bronze: [
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-  ],
-
-  inkind: [
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
-  ],
-};
-
+const SPONSORS: Record<Tier, Sponsor[]> = sponsers
 const TIER_CONFIG: Record<
   Tier,
   {
@@ -330,6 +267,7 @@ function TierSection({
             absolute
             inset-0
             flex
+
             items-center
             pl-[50px]
             pr-4
@@ -358,19 +296,31 @@ function TierSection({
                   key={`${sponsor.name}-${index}`}
                   className="
                     flex
-                    h-[70px]
+                    flex-col
+                    h-auto
+                    min-h-[70px]
                     w-full
                     items-center
                     justify-center
+                    gap-2
                     px-2
-                    sm:h-[85px]
+                    py-2
+                    sm:min-h-[85px]
                     sm:px-3
-                    md:h-[100px]
+                    md:min-h-[100px]
                   "
                 >
-                  <SponsorLogo sponsor={sponsor} tier={tier} />
+                  <div className="flex h-[70px] w-full items-center justify-center sm:h-[85px] md:h-[100px]">
+                    <SponsorLogo sponsor={sponsor} tier={tier} />
+                  </div>
+                  {sponsor.category && (
+                    <div className="text-xs font-medium tracking-wider text-[#F1FDFD]/70 uppercase sm:text-sm">
+                      {sponsor.category}
+                    </div>
+                  )}
                 </div>
               ))}
+
             </div>
           )}
         </div>
@@ -434,10 +384,10 @@ export default function SponsorsSection() {
         </div>
 
         {/* Sponsor tiers */}
-        <TierSection tier="gold" sponsors={SPONSORS.gold} />
-        <TierSection tier="silver" sponsors={SPONSORS.silver} />
-        <TierSection tier="bronze" sponsors={SPONSORS.bronze} />
-        <TierSection tier="inkind" sponsors={SPONSORS.inkind} />
+        {SPONSORS.gold && SPONSORS.gold.length != 0 && <TierSection tier="gold" sponsors={SPONSORS.gold} />}
+        {SPONSORS.silver && SPONSORS.silver.length != 0 && <TierSection tier="silver" sponsors={SPONSORS.silver} />}
+        {SPONSORS.bronze && SPONSORS.bronze.length != 0 && <TierSection tier="bronze" sponsors={SPONSORS.bronze} />}
+        {SPONSORS.inkind && SPONSORS.inkind.length != 0 && <TierSection tier="inkind" sponsors={SPONSORS.inkind} />}
       </div>
     </section>
   );

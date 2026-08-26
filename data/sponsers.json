@@ -1,0 +1,35 @@
+{
+  "gold": [
+    {
+      "name": "Proveniq",
+      "website": "www.proveniq.co.in",
+      "logo": "/sponsers/proveniq.webp"
+    },
+    {
+      "name": "Miro",
+      "website": "https://miro.com/",
+      "logo": "/sponsers/miro.jpeg"
+    }
+  ],
+  "silver": [
+    {
+      "name": "Myrad",
+      "website": "https://www.myradhq.xyz/",
+      "logo": "/sponsers/myrad.png"
+    }
+  ],
+  "bronze": [],
+  "inkind": [
+    {
+      "name": "Wiki Kolkata",
+      "website": "https://www.wikikolkata.com/",
+      "logo": "/sponsers/wiki_kolkata.png",
+      "category": "Media Partner"
+    },
+    {
+      "name": "TruScholar",
+      "website": "https://www.truscholar.io/",
+      "logo": "/sponsers/truscholar.png"
+    }
+  ]
+}
