@@ -3,6 +3,7 @@
 import React from 'react';
 import { useStore } from 'zustand';
 import GetTicketStore from '../state_management/ticket_store';
+import Image from 'next/image';
 
 export default function HeroSection() {
   const store = GetTicketStore();
@@ -57,26 +58,27 @@ export default function HeroSection() {
 
         {/* Action Buttons */}
         <div className="w-full max-w-sm flex flex-col gap-2.5 mt-1">
-          <button
-            type="button"
-            onClick={handleTicketClick}
-            disabled={!isAvailable}
-            className={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl bg-[#F1FDFD] px-5 py-3.5 shadow-xl transition-all ${isAvailable ? 'cursor-pointer active:scale-98' : 'cursor-not-allowed opacity-85'}`}
-            aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
-          >
+          <div className='relative sm:w-full'>
             {!isAvailable && (
-              <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#090D2B]/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
-                <div className="bg-[#EE4B15] text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 text-xl tracking-wide border border-white/20 whitespace-nowrap">
-                  SOLD OUT
-                </div>
+            <div className="absolute z-10 inset-0 flex items-center justify-center bg-brand-bg/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
+              <div className="bg-[#EE4B15] z-10 text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 sm:text-5xl md:text-5xl text-5xl tracking-wide border border-white/20 whitespace-nowrap">
+                SOLD OUT
               </div>
-            )}
-            <div className="font-blackhan uppercase leading-none tracking-tight text-[#0C1235] text-xl">
-              GET YOUR TICKET
             </div>
-            <img src="/tickets.svg" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" />
-          </button>
-
+          )}
+            <button
+              type="button"
+              onClick={handleTicketClick}
+              disabled={!isAvailable}
+              className={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl bg-[#F1FDFD] px-5 py-3.5 shadow-xl transition-all w-full ${isAvailable ? 'cursor-pointer active:scale-98' : 'cursor-not-allowed opacity-85'}`}
+              aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
+            >
+              <div className="font-blackhan uppercase leading-none tracking-tight text-[#0C1235] text-xl">
+                GET YOUR TICKET
+              </div>
+              <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" />
+            </button>
+          </div>
           <a
             href="https://chat.whatsapp.com/L4X2PkdD8v49MSI1iEWUcu"
             target="_blank"
@@ -181,6 +183,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }
