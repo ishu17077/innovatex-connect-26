@@ -16,16 +16,16 @@ const SPONSORS: Record<Tier, Sponsor[]> = {
     {
       name: 'Proveniq',
       website: 'www.proveniq.co.in',
-      logo: 'https://ik.imagekit.io/hacktropica/proveniq_logo_Black.png',
+      logo: '/sponsers/proveniq.webp',
+    },
+    {
+      name: 'Miro',
+      website: 'https://miro.com/',
+      logo: '/sponsers/miro.jpeg',
     },
   ],
 
   silver: [
-    {
-      name: 'Sponsor Name',
-      website: '#',
-      logo: '',
-    },
     {
       name: 'Sponsor Name',
       website: '#',
