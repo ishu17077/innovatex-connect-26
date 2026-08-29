@@ -120,7 +120,7 @@ export default function Home() {
       />
 
       {/* Speakers Section */}
-      <SpeakersSection />
+      {/* <SpeakersSection /> */}
 
       {/* Bold Orange Marquee Before Agenda
       <MarqueeBanner

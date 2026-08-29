@@ -20,6 +20,12 @@ import {
 import {
   redirectToCorrectDashboard
 } from "../../common/redirect_to_correct_dashboard"
+import {
+  ROLES
+} from "@/backend/config/constants";
+import {
+  isTicketAvailable
+} from "../../constants";
 
 
 export const POST = asyncCacheHandler(
@@ -33,7 +39,6 @@ export const POST = asyncCacheHandler(
       token
     } = await loginController(validationResult.data);
     const response = redirectToCorrectDashboard(user.role, req)
-
     response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

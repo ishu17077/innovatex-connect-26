@@ -49,7 +49,6 @@ export const GET = asyncDbHandler(async (req) => {
 
   const dashboardData = await getUserDashboardController(authResult.user._id);
 
-
   return sendResponse({
     success: true,
     statusCode: 200,

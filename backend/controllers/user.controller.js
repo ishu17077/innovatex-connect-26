@@ -2,8 +2,12 @@ import User from "../models/User";
 import Ticket from "../models/Ticket";
 import Notification from "../models/Notification";
 import {
+  ROLES,
   TICKET_STATUS
 } from "../config/constants";
+import {
+  isTicketAvailable
+} from "@/app/api/constants";
 
 export async function getProfileController(userId) {
   const user = await User.findById(userId).select("-password -secret");
@@ -12,6 +16,13 @@ export async function getProfileController(userId) {
     error.statusCode = 404;
     throw error;
   }
+
+  if (!isTicketAvailable && (!user.role || user.role == ROLES.UNDEFINED)) {
+    const error = new Error("User have not completed their profile or registered their ticket before deadline")
+    error.statusCode = 403
+    throw error
+  }
+
   return user;
 }
 
@@ -26,6 +37,12 @@ export async function updateProfileController(userId, updateData) {
     error.statusCode = 404;
     throw error;
   }
+  if (!isTicketAvailable && (!user.role || user.role == ROLES.UNDEFINED)) {
+    const error = new Error("User have not completed their profile or registered their ticket before deadline")
+    error.statusCode = 403
+    return error
+  }
+
   return user;
 }
 
@@ -39,6 +56,11 @@ export async function getUserDashboardController(userId) {
   }).sort({
     createdAt: -1
   }).limit(5);
+  if (!isTicketAvailable && (!user.role || user.role == ROLES.UNDEFINED)) {
+    const error = new Error("User have not completed their profile or registered their ticket before deadline")
+    error.statusCode = 403
+    return error
+  }
 
   if (ticket && ticket.status === TICKET_STATUS.APPROVED) {
     return {

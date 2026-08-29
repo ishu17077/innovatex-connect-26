@@ -174,7 +174,7 @@ export async function googleLoginUser({
     email
   });
   let isNewUser = false;
-  if (!user) {
+  if (!user || !user.role || user.role === ROLES.UNDEFINED) {
     if (!isTicketAvailable) {
       const error = new Error("Registrations closed. Thank you for cooperating with us")
       error.statusCode = 403
@@ -236,6 +236,11 @@ export async function updateUserDetails({
   foodPreference,
 }) {
   try {
+    if (!isTicketAvailable) {
+      const error = new Error("Tickets are not available, cannot continue signup process");
+      error.statusCode = 403
+      throw error
+    }
 
     if (role !== "Student" && role !== "Working Professional" && role !== "Community Partner") {
       const error = new Error("Role not defined");
@@ -321,9 +326,12 @@ export async function loginUser({
   }
 
 
+
+
   const user = await User.findOne({
     email: email.toLowerCase()
   });
+
   if (!user) {
     const error = new Error("Invalid email or password");
     error.statusCode = 401;
@@ -339,9 +347,18 @@ export async function loginUser({
   const isMatch = await comparePassword(password, user.password);
   if (!isMatch) {
     const error = new Error("Invalid email or password");
-    error.statusCode = 401;
+    error.statusCode = 401; 
     throw error;
   }
+
+  if (!isTicketAvailable) {
+    if (!user.role || user.role === ROLES.UNDEFINED) {
+      const error = new Error("Ticket booking is closed, and you have not registered your profile")
+      error.statusCode = 403
+      throw error
+    }
+  }
+
 
   const token = generateToken({
     userId: user._id,

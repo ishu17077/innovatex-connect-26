@@ -96,6 +96,7 @@ export default function UserDashboardPage() {
       if (!res.ok || !json.success) {
         throw new Error(json.message || 'Failed to load user dashboard.');
       }
+      console.log(data)
       setData(json.data);
 
     } catch (err) {
@@ -527,7 +528,7 @@ export default function UserDashboardPage() {
               </div>
             )}
             {/* WhatsApp Group Link */}
-            {data.WAGroupLink && (
+            {data && data.WAGroupLink && (
               <div className='bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 overflow-hidden mt-6'>
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-white relative ">
                   <div className="absolute top-1/2 right-0 w-48 h-48 bg-[#25D366]/10 rounded-full blur-3xl pointer-events-none translate-x-1/2 -translate-y-1/2" />
