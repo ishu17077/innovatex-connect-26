@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from "next/image"
 import { speakersList } from '../data/constants';
 
 function SpeakerCard({ speaker, isSecond }) {
@@ -18,13 +19,16 @@ function SpeakerCard({ speaker, isSecond }) {
 
         {/* Foreground Photo Card (Slanted Parallelogram with subtle corner radius) */}
         <div className="relative w-full h-full -skew-x-[11deg] rounded-[3px] overflow-hidden z-10 bg-[#0C1235] shadow-[0_12px_30px_rgba(0,0,0,0.6)]">
-          <img
+          <Image
             src={speaker.image}
-            alt={speaker.name}
+            alt={speaker.name.toUpperCase()}
+            width={500}
+            height={500}
             className={`w-full h-full object-cover skew-x-[11deg] ${isSecond
               ? 'scale-[1.4] object-[65%_18%]'
               : 'scale-[1.2] object-[center_15%]'
-              }`}
+              }`
+            }
           />
         </div>
       </div>

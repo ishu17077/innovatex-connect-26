@@ -4,8 +4,7 @@ import React from 'react';
 
 export default function ComingSoon() {
   return (
-    //TODO: change this id to comingsoon
-    <section id="speakers" className="relative w-full pt-16 sm:pt-24 pb-8 sm:pb-12 z-10 overflow-hidden">
+    <section id="comingsoon" className="relative w-full pt-16 sm:pt-24 pb-8 sm:pb-12 z-10 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="relative rounded-[32px] border border-[#EE4B15]/30 bg-[#0C1235]/60 p-8 sm:p-16 flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-500 hover:border-[#EE4B15]/60 hover:shadow-[0_0_50px_rgba(238,75,21,0.15)] group">
 
