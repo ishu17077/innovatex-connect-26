@@ -44,15 +44,18 @@ export default function HeroSection() {
           </div>
 
           {/* Info Badges Row */}
-          <div className="flex items-center justify-center gap-2.5 mt-1 flex-wrap">
-            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0C1235]/90 px-3.5 py-2 shadow-md backdrop-blur-md">
-              <span className="font-blackhan uppercase text-sm leading-none text-[#F1FDFD]">SEPT</span>
-              <span className="font-bricolage text-sm leading-none font-light text-[#EE4B15]">05</span>
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-1 flex-nowrap w-full px-1">
+            <div className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-[#0C1235]/90 px-2.5 py-1.5 sm:px-3.5 sm:py-2 shadow-md backdrop-blur-md whitespace-nowrap">
+              <span className="font-blackhan uppercase text-xs sm:text-sm leading-none text-[#F1FDFD]">SEPT</span>
+              <span className="font-bricolage text-xs sm:text-sm leading-none font-light text-[#EE4B15]">08</span>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0C1235]/90 px-3.5 py-2 shadow-md backdrop-blur-md">
-              <span className="font-blackhan uppercase text-sm leading-none text-[#F1FDFD]">JIS</span>
-              <span className="font-bricolage text-xs leading-none text-[#EE4B15] font-bold">University, Kolkata</span>
-            </div>
+            <a href="https://www.google.com/maps/place/Narula+Institute+of+Technology/@22.6768604,88.3777775,402m/data=!3m2!1e3!4b1!4m6!3m5!1s0x39f899adb6e5139f:0x8e43eace10c1361d!8m2!3d22.6768604!4d88.379065!16s%2Fm%2F02wcr3z?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-[#0C1235]/90 px-2.5 py-1.5 sm:px-3.5 sm:py-2 shadow-md backdrop-blur-md whitespace-nowrap hover:opacity-80 transition-opacity cursor-pointer">
+              <span className="font-blackhan uppercase text-[12px] sm:text-[13px] leading-none text-[#F1FDFD]">NARULA</span>
+              <div className="font-bricolage text-[7.5px] sm:text-[9px] leading-tight text-[#F1FDFD]/85 text-left">
+                <div>Institute of Technology</div>
+                <div className="text-[#EE4B15] font-bold">Kolkata</div>
+              </div>
+            </a>
           </div>
         </div>
 
@@ -166,19 +169,19 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="flex w-full flex-wrap justify-center lg:justify-end gap-3 sm:gap-4 pt-2 lg:pt-0">
-              <div className="flex items-center gap-2.5 sm:gap-3 rounded-xl border border-white/10 bg-[#0C1235]/80 px-4 py-3 sm:px-6 sm:py-4 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_15px_35px_rgba(46,108,255,0.2)] transition-all duration-300">
-                <span className="font-blackhan uppercase text-[clamp(1.5rem,3vw,3rem)] leading-none tracking-tighter text-[#F1FDFD]">SEPT</span>
-                <span className="font-bricolage text-[clamp(1.3rem,2.5vw,2.4rem)] leading-none font-light text-[#EE4B15]">05</span>
+            <div className="flex w-full flex-nowrap justify-center lg:justify-end gap-2 sm:gap-3 pt-2 lg:pt-0">
+              <div className="flex items-center gap-2 sm:gap-2.5 rounded-xl border border-white/10 bg-[#0C1235]/80 px-3 py-2.5 sm:px-5 sm:py-3 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_15px_35px_rgba(46,108,255,0.2)] transition-all duration-300 whitespace-nowrap">
+                <span className="font-blackhan uppercase text-[clamp(1.2rem,2vw,2.2rem)] leading-none tracking-tighter text-[#F1FDFD]">SEPT</span>
+                <span className="font-bricolage text-[clamp(1.1rem,1.8vw,2rem)] leading-none font-light text-[#EE4B15]">08</span>
               </div>
 
-              <div className="flex items-center gap-2.5 sm:gap-3 rounded-xl border border-white/10 bg-[#0C1235]/80 px-4 py-3 sm:px-6 sm:py-4 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_15px_35px_rgba(46,108,255,0.2)] transition-all duration-300">
-                <span className="font-blackhan uppercase text-[clamp(1.5rem,3vw,3rem)] leading-none tracking-tighter text-[#F1FDFD]">JIS</span>
-                <div className="font-bricolage text-[clamp(0.75rem,1.2vw,1.1rem)] leading-[0.95] text-[#F1FDFD]/85">
-                  <div>University</div>
+              <a href="https://www.google.com/maps/place/Narula+Institute+of+Technology/@22.6768604,88.3777775,402m/data=!3m2!1e3!4b1!4m6!3m5!1s0x39f899adb6e5139f:0x8e43eace10c1361d!8m2!3d22.6768604!4d88.379065!16s%2Fm%2F02wcr3z?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 sm:gap-2.5 rounded-xl border border-white/10 bg-[#0C1235]/80 px-3 py-2.5 sm:px-5 sm:py-3 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_15px_35px_rgba(46,108,255,0.2)] transition-all duration-300 whitespace-nowrap cursor-pointer">
+                <span className="font-blackhan uppercase text-[clamp(1.1rem,1.8vw,2rem)] leading-none tracking-tighter text-[#F1FDFD]">NARULA</span>
+                <div className="font-bricolage text-[clamp(0.55rem,0.8vw,0.8rem)] leading-[1.05] text-[#F1FDFD]/85 text-left">
+                  <div>Institute of Technology</div>
                   <div className="text-[#EE4B15] font-bold">Kolkata</div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>

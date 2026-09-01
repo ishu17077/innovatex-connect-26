@@ -354,7 +354,7 @@ function RegisterForm() {
                   name="college"
                   value={formData.college}
                   onChange={handleChange}
-                  placeholder="e.g. JIS University"
+                  placeholder="e.g. Narula Institute Of Technology "
                   className={inputClass}
                 />
               </div>
@@ -638,7 +638,7 @@ function RegisterForm() {
 export default function RegisterPage() {
   const store = GetTicketStore()
   const isAvailable = useStore(store, (s) => s.isAvailable)
-useEffect(() => {
+  useEffect(() => {
     if (!isAvailable) {
       window.location.href = "/login"
     }

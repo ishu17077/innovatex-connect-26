@@ -72,7 +72,7 @@ export default function AgendaSection() {
           <svg className="w-3.5 h-3.5 text-[#EE4B15]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          Saturday, 5 September 2026
+          Tuesday, 8 September 2026
         </div>
       </div>
 
@@ -118,11 +118,10 @@ export default function AgendaSection() {
 
                   {/* Node Circle */}
                   <div
-                    className={`relative flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border-2 font-black text-xs sm:text-sm transition-all duration-500 select-none ${
-                      isRevealed
-                        ? 'border-[#EE4B15] bg-[#EE4B15] text-white shadow-[0_0_25px_rgba(238,75,21,0.8)] scale-110'
-                        : 'border-white/20 bg-[#0C1235] text-slate-400 scale-95'
-                    }`}
+                    className={`relative flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border-2 font-black text-xs sm:text-sm transition-all duration-500 select-none ${isRevealed
+                      ? 'border-[#EE4B15] bg-[#EE4B15] text-white shadow-[0_0_25px_rgba(238,75,21,0.8)] scale-110'
+                      : 'border-white/20 bg-[#0C1235] text-slate-400 scale-95'
+                      }`}
                   >
                     {String(index + 1).padStart(2, '0')}
                   </div>
@@ -130,37 +129,32 @@ export default function AgendaSection() {
 
                 {/* Card Container Wrapper (Alternating Desktop Sides) */}
                 <div
-                  className={`w-full pl-14 sm:pl-20 md:pl-0 md:w-1/2 ${
-                    isEven
-                      ? 'md:pr-12 md:mr-auto md:text-right'
-                      : 'md:pl-12 md:ml-auto md:text-left'
-                  }`}
+                  className={`w-full pl-14 sm:pl-20 md:pl-0 md:w-1/2 ${isEven
+                    ? 'md:pr-12 md:mr-auto md:text-right'
+                    : 'md:pl-12 md:ml-auto md:text-left'
+                    }`}
                 >
                   {/* Card Content Box */}
                   <div
-                    className={`relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(135deg,rgba(12,18,53,0.9),rgba(8,12,30,0.96))] p-5 sm:p-6 md:p-7 shadow-[0_18px_50px_rgba(3,6,18,0.45)] backdrop-blur-xl transition-all duration-700 ease-out group hover:-translate-y-1 hover:border-[#EE4B15]/40 hover:shadow-[0_20px_60px_rgba(238,75,21,0.2)] ${
-                      isRevealed
-                        ? 'opacity-100 translate-y-0 scale-100 md:translate-x-0'
-                        : `opacity-0 translate-y-8 scale-95 ${
-                            isEven ? 'md:-translate-x-12' : 'md:translate-x-12'
-                          }`
-                    }`}
+                    className={`relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(135deg,rgba(12,18,53,0.9),rgba(8,12,30,0.96))] p-5 sm:p-6 md:p-7 shadow-[0_18px_50px_rgba(3,6,18,0.45)] backdrop-blur-xl transition-all duration-700 ease-out group hover:-translate-y-1 hover:border-[#EE4B15]/40 hover:shadow-[0_20px_60px_rgba(238,75,21,0.2)] ${isRevealed
+                      ? 'opacity-100 translate-y-0 scale-100 md:translate-x-0'
+                      : `opacity-0 translate-y-8 scale-95 ${isEven ? 'md:-translate-x-12' : 'md:translate-x-12'
+                      }`
+                      }`}
                   >
                     {/* Glowing Hover Background Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-br from-[#EE4B15]/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
 
                     {/* Subtle Side Accent Beam */}
                     <div
-                      className={`absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#EE4B15] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                        isEven ? 'right-0' : 'left-0'
-                      }`}
+                      className={`absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#EE4B15] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isEven ? 'right-0' : 'left-0'
+                        }`}
                     />
 
                     {/* Header Badges */}
                     <div
-                      className={`flex flex-wrap items-center gap-2 mb-4 ${
-                        isEven ? 'md:justify-end' : 'md:justify-start'
-                      }`}
+                      className={`flex flex-wrap items-center gap-2 mb-4 ${isEven ? 'md:justify-end' : 'md:justify-start'
+                        }`}
                     >
                       <span className="inline-flex items-center gap-1 rounded-full border border-[#EE4B15]/30 bg-[#EE4B15]/15 px-3 py-1 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.25em] text-[#EE4B15]">
                         <span className="h-1.5 w-1.5 rounded-full bg-[#EE4B15] animate-pulse" />
@@ -183,9 +177,8 @@ export default function AgendaSection() {
 
                     {/* Footer Info: Time & Speakers */}
                     <div
-                      className={`mt-6 pt-5 border-t border-white/8 flex flex-wrap items-center justify-between gap-4 ${
-                        isEven ? 'md:flex-row-reverse' : 'md:flex-row'
-                      }`}
+                      className={`mt-6 pt-5 border-t border-white/8 flex flex-wrap items-center justify-between gap-4 ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'
+                        }`}
                     >
                       {/* Time Pill */}
                       <div className="inline-flex items-center gap-2 rounded-xl border border-[#EE4B15]/25 bg-[#EE4B15]/10 px-3.5 py-1.5 text-xs sm:text-sm font-tech font-bold text-[#EE4B15] shadow-inner">

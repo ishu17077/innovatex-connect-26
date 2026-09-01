@@ -75,7 +75,7 @@ export default function Footer() {
             <h4 className="text-white font-extrabold text-sm uppercase tracking-widest mb-6">Event Details</h4>
 
             <div className="flex flex-col gap-5">
-              <a href="https://www.google.com/maps/dir//JIS+UNIVERSITY,+81,+Nilgunj+Rd,+Jagarata+Pally,+Deshpriya+Nagar,+Agarpara,+Kolkata,+West+Bengal+700109/@22.6763177,88.3770407,402m/data=!3m1!1e3!4m17!1m7!3m6!1s0x39f89c46c06efd83:0x36a29a26ce825e99!2sJIS+UNIVERSITY!8m2!3d22.6759713!4d88.3783425!16s%2Fm%2F0138jwhb!4m8!1m0!1m5!1m1!1s0x39f89c46c06efd83:0x36a29a26ce825e99!2m2!1d88.3783425!2d22.6759713!3e2?entry=ttu&g_ep=EgoyMDI2MDgxOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
+              <a href="https://www.google.com/maps/place/Narula+Institute+of+Technology/@22.6768604,88.3777775,402m/data=!3m2!1e3!4b1!4m6!3m5!1s0x39f899adb6e5139f:0x8e43eace10c1361d!8m2!3d22.6768604!4d88.379065!16s%2Fm%2F02wcr3z?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#EE4B15] group-hover:bg-[#EE4B15] group-hover:text-white transition-all duration-300 shrink-0 shadow-lg">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -85,7 +85,7 @@ export default function Footer() {
                 <div className="text-left">
                   <h5 className="text-white font-bold text-sm mb-1 group-hover:text-[#EE4B15] transition-colors">Venue</h5>
                   <p className="text-slate-400 text-xs leading-relaxed">
-                    JIS University, Agarpara<br />Kolkata, West Bengal
+                    Narula Institute Of Technology , Agarpara<br />Kolkata, West Bengal
                   </p>
                 </div>
               </a>
@@ -99,7 +99,7 @@ export default function Footer() {
                 <div className="text-left">
                   <h5 className="text-white font-bold text-sm mb-1 group-hover:text-[#EE4B15] transition-colors">Date</h5>
                   <p className="text-slate-400 text-xs leading-relaxed">
-                    Saturday, September 5th<br />2026
+                    Tuesday, September 8th<br />2026
                   </p>
                 </div>
               </div>

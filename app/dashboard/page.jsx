@@ -339,7 +339,7 @@ export default function UserDashboardPage() {
                   <p className="text-slate-400 text-sm mt-3 leading-relaxed">
                     To confirm your spot for{" "}
                     <span className="text-white font-semibold">InnovateX Connect&apos;26</span> on{" "}
-                    <span className="text-green-400 font-semibold">5th September</span>, book your
+                    <span className="text-green-400 font-semibold">8th September</span>, book your
                     ticket for a small contribution of just{" "}
                     <span className="text-green-400 font-bold">₹99/-</span>.
                   </p>
@@ -448,7 +448,7 @@ export default function UserDashboardPage() {
                         </div>
                         <div>
                           <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Date & Venue</p>
-                          <p className="font-bold text-slate-100 text-xs mt-0.5">JIS University, Kolkata • 9 AM</p>
+                          <p className="font-bold text-slate-100 text-xs mt-0.5">Narula Institute Of Technology , Kolkata • 8th Sep</p>
                         </div>
                         <div>
                           <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Organization</p>
@@ -529,7 +529,7 @@ export default function UserDashboardPage() {
             )}
             {/* WhatsApp Group Link */}
             {data && data.WAGroupLink && (
-              <div className='bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 overflow-hidden mt-6'>
+              <div className='bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 overflow-hidden'>
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-white relative ">
                   <div className="absolute top-1/2 right-0 w-48 h-48 bg-[#25D366]/10 rounded-full blur-3xl pointer-events-none translate-x-1/2 -translate-y-1/2" />
                   <div className="flex items-start sm:items-center gap-5 relative z-10">
@@ -555,6 +555,34 @@ export default function UserDashboardPage() {
                 <p className="text-xs sm:text-sm text-red-500 max-w-full">Note: This is mandatory for all the attendees. Do not share this link with anyone else.</p>
               </div>
             )}
+
+            {/* Event Venue Link */}
+            <div className='bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 overflow-hidden'>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-white relative ">
+                <div className="absolute top-1/2 right-0 w-48 h-48 bg-[#EE4B15]/10 rounded-full blur-3xl pointer-events-none translate-x-1/2 -translate-y-1/2" />
+                <div className="flex items-start sm:items-center gap-5 relative z-10">
+                  <div className="w-14 h-14 rounded-2xl bg-[#EE4B15]/10 flex items-center justify-center text-[#EE4B15] shrink-0 border border-[#EE4B15]/20 shadow-inner">
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-extrabold text-white mb-1">Event Venue</h3>
+                    <p className="text-slate-400 text-xs sm:text-sm max-w-md">Narula Institute of Technology, Agarpara, Kolkata. Need directions? Tap the button to view on Google Maps.</p>
+                  </div>
+                </div>
+                <a
+                  href="https://www.google.com/maps/place/Narula+Institute+of+Technology/@22.6768604,88.3777775,402m/data=!3m2!1e3!4b1!4m6!3m5!1s0x39f899adb6e5139f:0x8e43eace10c1361d!8m2!3d22.6768604!4d88.379065!16s%2Fm%2F02wcr3z?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full md:w-auto px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-extrabold text-sm shadow-lg border border-white/10 transition-all flex items-center justify-center gap-2 shrink-0 relative z-10"
+                >
+                  View on Map
+                  <Icons.ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
             {/* Notifications Feed */}
             <div className="bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/8 text-white">
               <h3 className="text-lg font-extrabold text-white mb-4 flex items-center gap-2">

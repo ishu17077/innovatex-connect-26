@@ -53,7 +53,7 @@ const roboto = Roboto({
 export const metadata = {
   title: "InnovateX Connect'26",
   description: "Largest DevConference of InnovateX ever.",
-  keywords: ['Connect', 'InnovateX', "InnovateX Community", "InnovateXcom", "DevConference", "JIS Kolkata", "Kolkata events", "events"],
+  keywords: ['Connect', 'InnovateX', "InnovateX Community", "InnovateXcom", "DevConference", "Narula Institute of Technology Kolkata", "Kolkata events", "events"],
   icons: {
     icon: {
       url: "/favicon.png?v=1",
@@ -72,7 +72,7 @@ export const eventSchema = {
   'eventStatus': 'registrations open',
   'location': {
     '@type': 'Place',
-    'name': 'JIS College of Engineering (or specific JIS campus)',
+    'name': 'Narula Institute of Technology',
     'address': {
       '@type': 'PostalAddress',
       'streetAddress': 'Block A, Phase III, Kalyani', // Update with exact campus address
