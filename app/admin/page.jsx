@@ -169,14 +169,16 @@ export default function AdminDashboardPage() {
       csvRows.push(row.join(','));
     }
 
-    const csvContent = "data:text/csv;charset=utf-8," + csvRows.join('\n');
-    const encodedUri = encodeURI(csvContent);
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
+    link.setAttribute("href", url);
     link.setAttribute("download", `innovatex_tickets_${ticketFilter.toLowerCase()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const analytics = dashboardData?.analytics || {};
@@ -332,10 +334,12 @@ export default function AdminDashboardPage() {
                     <p className="text-slate-400 text-xs mt-0.5">Approve or reject attendee registrations.</p>
                   </div>
                   <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-                    <button onClick={exportToCSV} disabled={tickets.length === 0}
-                      className="w-full sm:w-auto px-4 py-2 text-xs font-bold rounded-lg bg-[#2E6CFF] hover:bg-[#2E6CFF]/80 text-white transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-                      Export CSV
-                    </button>
+                    {ticketFilter === 'Approved' && (
+                      <button onClick={exportToCSV} disabled={tickets.length === 0}
+                        className="w-full sm:w-auto px-4 py-2 text-xs font-bold rounded-lg bg-[#2E6CFF] hover:bg-[#2E6CFF]/80 text-white transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+                        Export CSV
+                      </button>
+                    )}
                     <div className="flex-1 items-center gap-1.5 p-1 bg-brand-bg! rounded-xl w-full sm:w-auto ">
                       {['Pending', 'Approved', 'Rejected', "Payment Required", "Invitation Expired"].map((s) => (
                         <button key={s} onClick={() => setTicketFilter(s)}
