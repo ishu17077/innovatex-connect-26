@@ -132,7 +132,7 @@ function TierSection({
       ? 'grid-cols-1'
       : sponsors.length === 2
         ? 'grid-cols-2'
-        : sponsors.length === 3
+        : sponsors.length >= 3
           ? 'grid-cols-1 sm:grid-cols-3'
           : 'grid-cols-2 md:grid-cols-4';
 
@@ -263,25 +263,27 @@ function TierSection({
 
         {/* Sponsor logos grid */}
         <div
-          className="
-            absolute
-            inset-0
+          className="  
+          relative
             flex
-
+            w-full
             items-center
             pl-[50px]
             pr-4
-            pt-2
+            py-6
             sm:pl-[60px]
             sm:pr-6
+            sm:py-8
             md:pl-[72px]
             md:pr-8
+            md:py-10
           "
         >
           {sponsors.length > 0 && (
             <div
               className={`
                 grid
+                min-h-fit
                 w-full
                 items-center
                 justify-items-center
@@ -325,7 +327,7 @@ function TierSection({
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

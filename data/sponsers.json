@@ -1,11 +1,6 @@
 {
   "gold": [
     {
-      "name": "Proveniq",
-      "website": "www.proveniq.co.in",
-      "logo": "/sponsers/proveniq.webp"
-    },
-    {
       "name": "Miro",
       "website": "https://miro.com/",
       "logo": "/sponsers/miro.jpeg"
@@ -16,6 +11,11 @@
       "name": "Myrad",
       "website": "https://www.myradhq.xyz/",
       "logo": "/sponsers/myrad.png"
+    },
+    {
+      "name": "Proveniq",
+      "website": "www.proveniq.co.in",
+      "logo": "/sponsers/proveniq.webp"
     }
   ],
   "bronze": [],
@@ -31,6 +31,24 @@
       "website": "https://www.truscholar.io/",
       "logo": "/sponsers/truscholar.png",
       "category": "Certificate Partner"
+    },
+    {
+      "name": "Hack the Source",
+      "website": "#",
+      "logo": "/sponsers/hack-the-source.jpeg",
+      "category": "Event Partner"
+    },
+    {
+      "name": "Gen XYZ",
+      "website": "https://gen.xyz/",
+      "logo": "/sponsers/xyz-domain.jpeg",
+      "category": "DOmain Partner"
+    },
+    {
+      "name": "Ruin run",
+      "website": "#",
+      "logo": "/sponsers/ruin-run.png",
+      "category": "Giveaway Sponser"
     }
   ]
 }
