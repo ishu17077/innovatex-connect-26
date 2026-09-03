@@ -91,7 +91,7 @@ export default function AboutGrid() {
             <p className="text-2xl sm:text-3xl font-blackhan text-white leading-tight select-none">Sept 08</p>
             <p className="text-sm font-bold text-[#EE4B15] mt-1 select-none">Tuesday, 2026</p>
           </div>
-          <p className="text-slate-400 text-xs font-semibold mt-3 relative z-10">Narula Institute Of Technology , Agarpara, Kolkata</p>
+          <p className="text-slate-400 text-xs font-semibold mt-3 relative z-10">JIS University, Kolkata</p>
         </div>
 
         {/* Organized By Card */}

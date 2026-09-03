@@ -354,7 +354,7 @@ function RegisterForm() {
                   name="college"
                   value={formData.college}
                   onChange={handleChange}
-                  placeholder="e.g. Narula Institute Of Technology "
+                  placeholder="e.g. JIS University"
                   className={inputClass}
                 />
               </div>

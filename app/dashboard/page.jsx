@@ -448,7 +448,7 @@ export default function UserDashboardPage() {
                         </div>
                         <div>
                           <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Date & Venue</p>
-                          <p className="font-bold text-slate-100 text-xs mt-0.5">Narula Institute Of Technology , Kolkata • 8th Sep</p>
+                          <p className="font-bold text-slate-100 text-xs mt-0.5">JIS University, Kolkata • 8th Sep</p>
                         </div>
                         <div>
                           <p className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Organization</p>
@@ -569,11 +569,11 @@ export default function UserDashboardPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-extrabold text-white mb-1">Event Venue</h3>
-                    <p className="text-slate-400 text-xs sm:text-sm max-w-md">Narula Institute of Technology, Agarpara, Kolkata. Need directions? Tap the button to view on Google Maps.</p>
+                    <p className="text-slate-400 text-xs sm:text-sm max-w-md">JIS University, Kolkata. Need directions? Tap the button to view on Google Maps.</p>
                   </div>
                 </div>
                 <a
-                  href="https://www.google.com/maps/place/Narula+Institute+of+Technology/@22.6768604,88.3777775,402m/data=!3m2!1e3!4b1!4m6!3m5!1s0x39f899adb6e5139f:0x8e43eace10c1361d!8m2!3d22.6768604!4d88.379065!16s%2Fm%2F02wcr3z?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D"
+                  href="https://www.google.com/maps/place/JIS+UNIVERSITY/@22.6763177,88.3770407,402m/data=!3m1!1e3!4m14!1m7!3m6!1s0x39f89c46c06efd83:0x36a29a26ce825e99!2sJIS+UNIVERSITY!8m2!3d22.6759713!4d88.3783425!16s%2Fm%2F0138jwhb!3m5!1s0x39f89c46c06efd83:0x36a29a26ce825e99!8m2!3d22.6759713!4d88.3783425!16s%2Fm%2F0138jwhb?entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full md:w-auto px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-extrabold text-sm shadow-lg border border-white/10 transition-all flex items-center justify-center gap-2 shrink-0 relative z-10"
