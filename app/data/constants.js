@@ -10,6 +10,12 @@ export const speakersList = [{
     company: 'Tata Consultancy Services(TCS)',
     image: '/speakers/sristi-majumder.jpeg',
   },
+  {
+    name: 'Avik Agarwala',
+    role: 'AI ENGINEER',
+    company: 'TCS',
+    image: '/speakers/avik-agarwala.jpeg',
+  },
 
 ];
 
