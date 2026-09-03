@@ -66,8 +66,8 @@ export const eventSchema = {
   '@context': 'https://schema.org',
   '@type': 'Event',
   'name': 'InnovateX Community DevConference',
-  'startDate': '2026-10-05T09:00:00+05:30', // Use ISO 8601 date format (YYYY-MM-DD)
-  'endDate': '2026-10-05T18:00:00+05:30',
+  'startDate': '2026-09-08T10:00:00+05:30', // Use ISO 8601 date format (YYYY-MM-DD)
+  'endDate': '2026-09-08T17:00:00+05:30',
   'eventAttendanceMode': 'physical', // Physical event
   'eventStatus': 'registrations open',
   'location': {

@@ -16,7 +16,7 @@ export const speakersList = [{
 export const agendaData = [{
     category: 'DISCOVERY',
     title: 'Problem discovery and understanding gaps.',
-    time: '09:00AM - 10:20AM',
+    time: '10:00AM - 10:20AM',
     description: 'Step out of your routine and enter a focused environment to start exploring real-world problems. Join us for an extraordinary session.',
     speakers: [{
         name: 'Souma Deep',

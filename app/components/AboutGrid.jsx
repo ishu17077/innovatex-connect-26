@@ -76,7 +76,7 @@ export default function AboutGrid() {
             </div>
             <div className="mt-3 relative z-10">
               <span className="inline-block px-3.5 py-1 rounded-full bg-white/15 border border-white/20 text-white font-black text-xs sm:text-sm tracking-wider uppercase backdrop-blur-sm select-none">
-                9 AM – 5 PM
+                10 AM – 5 PM
               </span>
             </div>
           </div>
