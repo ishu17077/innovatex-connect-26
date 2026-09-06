@@ -183,6 +183,52 @@ export default function AdminDashboardPage() {
     URL.revokeObjectURL(url);
   };
 
+  const exportAttendanceCSV = async () => {
+    try {
+      const res = await fetch('/api/admin/tickets?status=Approved');
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.message || 'Failed to fetch tickets');
+      
+      const approvedTickets = json.data || [];
+      if (approvedTickets.length === 0) {
+        alert("No approved tickets found to export.");
+        return;
+      }
+
+      const headers = [
+        'Ticket No', 'Student Name', 'Phone Number', 'College', 'Gate Check-in', 'Food Scan', 'Swags Collect'
+      ];
+
+      const csvRows = [headers.join(',')];
+
+      for (const t of approvedTickets) {
+        const row = [
+          t.ticketNumber,
+          `"${t.userId?.name || ''}"`,
+          `"${t.userId?.phone || ''}"`,
+          `"${t.userId?.college || t.userId?.company || ''}"`,
+          t.checkedIn ? 'Yes' : 'No',
+          t.foodCollected ? 'Yes' : 'No',
+          t.swagsCollected ? 'Yes' : 'No'
+        ];
+        csvRows.push(row.join(','));
+      }
+
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `innovatex_scan_data.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert("Error exporting CSV: " + err.message);
+    }
+  };
+
   const analytics = dashboardData?.analytics || {};
 
   const tabList = [
@@ -649,6 +695,7 @@ export default function AdminDashboardPage() {
                 scanResult={scanResult}
                 onOpenCamera={() => openScanner('gate')}
                 onManualSubmit={(e) => handleManualScan(e, 'gate')}
+                onExportCSV={exportAttendanceCSV}
               />
             )}
 
@@ -668,6 +715,7 @@ export default function AdminDashboardPage() {
                 scanResult={scanResult}
                 onOpenCamera={() => openScanner('food')}
                 onManualSubmit={(e) => handleManualScan(e, 'food')}
+                onExportCSV={exportAttendanceCSV}
               />
             )}
 
@@ -687,6 +735,7 @@ export default function AdminDashboardPage() {
                 scanResult={scanResult}
                 onOpenCamera={() => openScanner('swags')}
                 onManualSubmit={(e) => handleManualScan(e, 'swags')}
+                onExportCSV={exportAttendanceCSV}
               />
             )}
           </div>
@@ -699,7 +748,7 @@ export default function AdminDashboardPage() {
 function ScannerPanel({
   title, iconBg, hint, accentColor, focusRing,
   btnLabel, scanType, scanInput, setScanInput,
-  scanLoading, scanResult, onOpenCamera, onManualSubmit,
+  scanLoading, scanResult, onOpenCamera, onManualSubmit, onExportCSV
 }) {
   const camBtnColor = accentColor === 'amber'
     ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/30'
@@ -712,9 +761,16 @@ function ScannerPanel({
   return (
     <div className="glass-card !bg-[#0C1235] rounded-3xl p-6 sm:p-8 shadow-xl border border-white/10 max-w-2xl mx-auto space-y-6 text-white">
       {/* Header */}
-      <div className="text-center">
+      <div className="text-center relative">
         <h2 className="text-xl font-extrabold text-white">{title}</h2>
         <p className="text-slate-300 text-xs mt-1">{hint}</p>
+        <button 
+          onClick={onExportCSV}
+          className="mt-4 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2 mx-auto"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          Export Centralized Scan Data (CSV)
+        </button>
       </div>
 
       {/* Camera Scan Button */}
