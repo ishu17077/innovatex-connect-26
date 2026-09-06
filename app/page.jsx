@@ -9,7 +9,6 @@ import TicketSection from './components/TicketSection';
 import FaqSection from './components/FaqSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import ComingSoon from './components/ComingSoon';
 import GetTicketStore from './state_management/ticket_store';
 import { useStore } from 'zustand';
 
@@ -135,11 +134,10 @@ export default function Home() {
       {/* Community Partners */}
       <CommunityPartnersSection />
 
-      {/*TODO: Agenda Section */}
-      <ComingSoon />
-      {/* <div className="max-w-6xl mx-auto w-full px-3 sm:px-6 md:px-12 relative z-10">
+      {/* Event Timeline / Agenda Section (Snake Format) */}
+      <div className="max-w-6xl mx-auto w-full px-3 sm:px-6 md:px-12 relative z-10">
         <AgendaSection />
-      </div> */}
+      </div>
 
       {/* Ticket Section */}
       <div className="max-w-6xl mx-auto w-full px-3 sm:px-6 md:px-12 relative z-10">

@@ -70,8 +70,7 @@ export default function Navbar() {
       const activeIndex = [
         isActive('/'),
         isActive('/#speakers', '#speakers'),
-        //TODO: Implement
-        isActive('/#agenda', '#agenda', '/#comingsoon', '#comingsoon'),
+        isActive('/#agenda', '#agenda'),
         isActive('/teams'),
         isActive('/leaderboard')
       ].findIndex(Boolean);
@@ -164,20 +163,20 @@ export default function Navbar() {
             <Icons.Speakers />
             <span className="hidden sm:inline">Speakers</span>
           </Link>
-          {/**TODO: Implement Agenda*/}
-          {/* <Link
+          {/* Agenda */}
+          <Link
             ref={el => (linksRef.current[2] = el)}
-            href="/#comingsoon"
-            onClick={() => setCurrentHash('#comingsoon')}
+            href="/#agenda"
+            onClick={() => setCurrentHash('#agenda')}
             aria-label="Agenda"
-            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/#agenda', '#agenda', '/#comingsoon', '#comingsoon')
+            className={`relative z-10 group flex items-center px-2 sm:px-3 py-1.5 rounded-full transition-all ${isActive('/#agenda', '#agenda')
               ? 'text-white'
               : 'hover:text-white hover:bg-white/5'
               }`}
           >
             <Icons.Agenda />
             <span className="hidden sm:inline">Agenda</span>
-          </Link> */}
+          </Link>
 
           <Link
             ref={el => (linksRef.current[3] = el)}
