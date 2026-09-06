@@ -48,6 +48,10 @@ const ticketSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  swagsCollected: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

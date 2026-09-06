@@ -158,8 +158,8 @@ export default function AgendaSection() {
                   {/* Numbered Node Badge */}
                   <div
                     className={`relative flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border-2 font-black text-xs sm:text-sm transition-all duration-500 select-none shadow-lg ${isPassedByLine || isRevealed
-                        ? 'border-[#EE4B15] bg-[#EE4B15] text-white shadow-[0_0_25px_rgba(238,75,21,0.85)] scale-110'
-                        : 'border-white/20 bg-[#0C1235] text-slate-400 scale-95'
+                      ? 'border-[#EE4B15] bg-[#EE4B15] text-white shadow-[0_0_25px_rgba(238,75,21,0.85)] scale-110'
+                      : 'border-white/20 bg-[#0C1235] text-slate-400 scale-95'
                       }`}
                   >
                     {String(item.sno || index + 1).padStart(2, '0')}
@@ -169,8 +169,8 @@ export default function AgendaSection() {
                 {/* Snake Horizontal Connecting Bridge (Desktop md:block) */}
                 <div
                   className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] pointer-events-none z-10 transition-all duration-500 ${isEven
-                      ? 'right-1/2 w-10 sm:w-14 origin-right bg-gradient-to-l'
-                      : 'left-1/2 w-10 sm:w-14 origin-left bg-gradient-to-r'
+                    ? 'right-1/2 w-10 sm:w-14 origin-right bg-gradient-to-l'
+                    : 'left-1/2 w-10 sm:w-14 origin-left bg-gradient-to-r'
                     } ${isPassedByLine || isRevealed
                       ? 'from-[#EE4B15] to-[#EE4B15]/40 shadow-[0_0_10px_rgba(238,75,21,0.6)]'
                       : 'from-white/10 to-transparent'
@@ -188,8 +188,8 @@ export default function AgendaSection() {
                 {/* Card Container Wrapper (Alternating Desktop Sides) */}
                 <div
                   className={`w-full pl-14 sm:pl-20 md:pl-0 md:w-1/2 ${isEven
-                      ? 'md:pr-12 md:mr-auto md:text-right'
-                      : 'md:pl-12 md:ml-auto md:text-left'
+                    ? 'md:pr-12 md:mr-auto md:text-right'
+                    : 'md:pl-12 md:ml-auto md:text-left'
                     }`}
                 >
                   {/* Card Content Box with Pop-up Animation */}
@@ -199,9 +199,9 @@ export default function AgendaSection() {
                     tabIndex={0}
                     onKeyDown={(e) => e.key === 'Enter' && setActiveModalItem(item)}
                     className={`cursor-pointer group relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(135deg,rgba(12,18,53,0.92),rgba(8,12,30,0.96))] p-5 sm:p-6 shadow-[0_15px_40px_rgba(3,6,18,0.45)] backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-[#EE4B15]/60 hover:shadow-[0_20px_50px_rgba(238,75,21,0.25)] ${isRevealed
-                        ? 'opacity-100 translate-y-0 scale-100 md:translate-x-0'
-                        : `opacity-0 translate-y-10 scale-95 ${isEven ? 'md:-translate-x-10' : 'md:translate-x-10'
-                        }`
+                      ? 'opacity-100 translate-y-0 scale-100 md:translate-x-0'
+                      : `opacity-0 translate-y-10 scale-95 ${isEven ? 'md:-translate-x-10' : 'md:translate-x-10'
+                      }`
                       }`}
                   >
                     {/* Glowing Hover Background Gradient */}

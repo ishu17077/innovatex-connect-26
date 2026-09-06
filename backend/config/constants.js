@@ -34,6 +34,7 @@ export const AUTH_PROVIDERS = {
 export const SCAN_TYPES = {
   ATTENDANCE: "attendance",
   FOOD: "food",
+  SWAGS: "swags",
 };
 
 export const PAYMENT_STATUSES = {

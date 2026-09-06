@@ -25,6 +25,7 @@ export async function getAdminDashboardController() {
     rejectedTickets,
     checkedInCount,
     foodCollectedCount,
+    swagsCollectedCount,
     totalMailsSentToday
   ] = await Promise.all([User.countDocuments(), Ticket.countDocuments(), Ticket.countDocuments({
     status: TICKET_STATUS.PENDING
@@ -40,6 +41,8 @@ export async function getAdminDashboardController() {
     checkedIn: true
   }), Ticket.countDocuments({
     foodCollected: true
+  }), Ticket.countDocuments({
+    swagsCollected: true
   }), redisClient.get("mails_sent")])
 
   return {
@@ -54,6 +57,7 @@ export async function getAdminDashboardController() {
       checkedInCount,
       totalMailsSentToday: totalMailsSentToday ? parseInt(totalMailsSentToday, 10) : 0,
       foodCollectedCount,
+      swagsCollectedCount,
     },
   };
 }

@@ -83,10 +83,11 @@ export default function AdminDashboardPage() {
     setScanLoading(true); setError(''); setScanResult(null);
     try {
       const isGate = type === 'gate';
-      const endpoint = isGate ? '/api/attendance/scan' : '/api/food/scan'
+      const isFood = type === 'food';
+      const endpoint = isGate ? '/api/attendance/scan' : isFood ? '/api/food/scan' : '/api/attendance/scan-swags';
       const body = isGate
         ? { ticketNumber, gate: 'Main Gate' }
-        : { ticketNumber, counter: 'Food Counter 1' };
+        : isFood ? { ticketNumber, counter: 'Food Counter 1' } : { ticketNumber, counter: 'Swags Counter 1' };
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,7 +101,8 @@ export default function AdminDashboardPage() {
         const isDuplicate =
           msg.toLowerCase().includes('already checked in') ||
           msg.toLowerCase().includes('already been claimed') ||
-          msg.toLowerCase().includes('food coupon has already');
+          msg.toLowerCase().includes('food coupon has already') ||
+          msg.toLowerCase().includes('swags have already');
         if (isDuplicate) {
           setScanResult({ type, status: 'duplicate', message: msg, ticketNumber });
           playNotifyBeep('warn');
@@ -188,6 +190,7 @@ export default function AdminDashboardPage() {
     { id: 'tickets', label: 'Approvals' },
     { id: 'gate', label: 'Gate Scan' },
     { id: 'food', label: 'Food Scan' },
+    { id: 'swags', label: 'Swags Scan' },
     { id: 'leaderboard', label: 'Leaderboard' },
   ];
 
@@ -206,8 +209,8 @@ export default function AdminDashboardPage() {
         isOpen={scannerOpen}
         onClose={() => setScannerOpen(false)}
         onScanSuccess={handleQRScanSuccess}
-        title={scannerType === 'gate' ? 'Gate Check-in Scanner' : 'Food Coupon Scanner'}
-        accentColor={scannerType === 'gate' ? 'blue' : 'amber'}
+        title={scannerType === 'gate' ? 'Gate Check-in Scanner' : scannerType === 'food' ? 'Food Coupon Scanner' : 'Swags Scanner'}
+        accentColor={scannerType === 'gate' ? 'blue' : scannerType === 'food' ? 'amber' : 'purple'}
         scanResult={scanResult}
         scanLoading={scanLoading}
         scanError={error}
@@ -283,7 +286,7 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Live Ops KPIs */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="glass-card !bg-[#0C1235] rounded-3xl p-6 border border-emerald-500/20 shadow-xl bg-emerald-500/5">
                     <div className="flex items-center gap-3 mb-3">
                       <div>
@@ -318,6 +321,25 @@ export default function AdminDashboardPage() {
                       <div className="mt-3 h-2 rounded-full bg-amber-950 overflow-hidden">
                         <div className="h-full bg-amber-500 rounded-full transition-all duration-700"
                           style={{ width: `${Math.min(100, Math.round((analytics.foodCollectedCount / analytics.approvedTickets) * 100))}%` }} />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="glass-card !bg-[#0C1235] rounded-3xl p-6 border border-purple-500/20 shadow-xl bg-purple-500/5">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div>
+                        <p className="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Total Swags Collected</p>
+                        <p className="text-[10px] text-slate-400">Swags bags claimed</p>
+                      </div>
+                    </div>
+                    <p className="text-5xl font-extrabold text-purple-300">{analytics.swagsCollectedCount || 0}</p>
+                    <div className="mt-2 text-xs text-slate-400">
+                      of <span className="font-bold text-white">{analytics.approvedTickets || 0}</span> approved passes redeemed
+                    </div>
+                    {analytics.approvedTickets > 0 && (
+                      <div className="mt-3 h-2 rounded-full bg-purple-950 overflow-hidden">
+                        <div className="h-full bg-purple-500 rounded-full transition-all duration-700"
+                          style={{ width: `${Math.min(100, Math.round((analytics.swagsCollectedCount / analytics.approvedTickets) * 100))}%` }} />
                       </div>
                     )}
                   </div>
@@ -648,6 +670,25 @@ export default function AdminDashboardPage() {
                 onManualSubmit={(e) => handleManualScan(e, 'food')}
               />
             )}
+
+            {/* SWAGS SCAN */}
+            {activeTab === 'swags' && (
+              <ScannerPanel
+                title="Swags Collection"
+                iconBg="bg-purple-50 text-purple-600"
+                hint="Scan the attendee's QR ticket to mark swags as collected."
+                accentColor="purple"
+                focusRing="focus:ring-purple-500"
+                btnLabel="Collect Swags"
+                scanType="swags"
+                scanInput={scanInput}
+                setScanInput={setScanInput}
+                scanLoading={scanLoading}
+                scanResult={scanResult}
+                onOpenCamera={() => openScanner('swags')}
+                onManualSubmit={(e) => handleManualScan(e, 'swags')}
+              />
+            )}
           </div>
         )}
       </main>
@@ -662,6 +703,8 @@ function ScannerPanel({
 }) {
   const camBtnColor = accentColor === 'amber'
     ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/30'
+    : accentColor === 'purple'
+    ? 'bg-purple-600 hover:bg-purple-700 shadow-purple-600/30'
     : 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/30';
 
   const myResult = scanResult?.type === scanType ? scanResult : null;
@@ -719,7 +762,7 @@ function ScannerPanel({
             <div className="w-11 h-11 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xl font-bold shrink-0 shadow-lg shadow-emerald-500/30">✓</div>
             <div>
               <h3 className="text-sm font-extrabold text-emerald-400">
-                {scanType === 'gate' ? 'Check-in Confirmed!' : 'Food Coupon Claimed!'}
+                {scanType === 'gate' ? 'Check-in Confirmed!' : scanType === 'food' ? 'Food Coupon Claimed!' : 'Swags Collected!'}
               </h3>
               <p className="text-xs text-emerald-300 font-medium mt-0.5">
                 <span className="font-bold">{myResult.data?.ticket?.userId?.name}</span>
@@ -732,13 +775,17 @@ function ScannerPanel({
             <p className="text-[11px] text-emerald-400 font-mono">
               {scanType === 'gate'
                 ? `Gate: ${myResult.data?.attendance?.gate}`
-                : `Counter: ${myResult.data?.foodScan?.counter}`}
+                : scanType === 'food'
+                ? `Counter: ${myResult.data?.foodScan?.counter}`
+                : `Counter: ${myResult.data?.swagsScan?.counter}`}
               {' • '}{new Date().toLocaleTimeString()}
             </p>
             <p className="text-[11px] text-emerald-300">
               {scanType === 'gate'
                 ? 'Attendee successfully marked as arrived. Entry allowed.'
-                : 'Meal coupon marked as redeemed. One-time use only.'}
+                : scanType === 'food'
+                ? 'Meal coupon marked as redeemed. One-time use only.'
+                : 'Swags marked as collected. One-time collection only.'}
             </p>
           </div>
         </div>
@@ -751,7 +798,7 @@ function ScannerPanel({
             <div className="w-11 h-11 rounded-full bg-amber-500 text-white flex items-center justify-center text-xl font-bold shrink-0 shadow-lg shadow-amber-500/30">!</div>
             <div>
               <h3 className="text-sm font-extrabold text-amber-400">
-                {scanType === 'gate' ? 'Already Checked In!' : 'Food Coupon Already Used!'}
+                {scanType === 'gate' ? 'Already Checked In!' : scanType === 'food' ? 'Food Coupon Already Used!' : 'Swags Already Collected!'}
               </h3>
               <p className="text-xs text-amber-300 font-medium mt-0.5 font-mono">
                 {myResult.ticketNumber}
@@ -762,7 +809,9 @@ function ScannerPanel({
             <p className="text-xs text-amber-300 leading-relaxed">
               {scanType === 'gate'
                 ? 'This attendee has already scanned in at the main gate. Do not allow duplicate entry.'
-                : 'This food coupon has already been redeemed. Each ticket allows one meal only.'}
+                : scanType === 'food'
+                ? 'This food coupon has already been redeemed. Each ticket allows one meal only.'
+                : 'These swags have already been collected. Each ticket allows one collection only.'}
             </p>
           </div>
           <div className="pl-14 pt-1">

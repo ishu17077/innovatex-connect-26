@@ -63,5 +63,37 @@ export async function scanFoodCollection({ ticketNumber, adminId, counter = "Foo
     message: `Your food coupon was successfully scanned at ${counter}. Enjoy your meal!`,
   });
 
-  return { ticket, foodScan };
+  return { ticket, foodScan: { counter } };
+}
+
+export async function scanSwagsCollection({ ticketNumber, adminId, counter = "Swags Counter 1" }) {
+  const ticket = await Ticket.findOne({ ticketNumber }).populate("userId", "name email");
+  if (!ticket) {
+    const error = new Error("Ticket not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (ticket.status !== TICKET_STATUS.APPROVED) {
+    const error = new Error(`Ticket is not approved. Current status: ${ticket.status}`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (ticket.swagsCollected) {
+    const error = new Error("Swags have already been collected for this ticket");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  ticket.swagsCollected = true;
+  await ticket.save();
+
+  await Notification.create({
+    userId: ticket.userId._id,
+    title: "Swags Collected",
+    message: `Your swags were successfully collected at ${counter}. We hope you enjoy them!`,
+  });
+
+  return { ticket, swagsScan: { counter } };
 }
