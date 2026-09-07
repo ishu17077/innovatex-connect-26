@@ -475,6 +475,13 @@ export default function UserDashboardPage() {
                           <span className="text-xs">{data.ticket.foodCollected ? '🍔' : '🎟️'}</span>
                           {data.ticket.foodCollected ? 'Food Claimed' : 'Food Coupon Available'}
                         </div>
+                        <div className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 ${data.ticket.foodCollected
+                          ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
+                          : 'bg-[#941094]/25 text-[#e213d8] border border-[#c00fb1]/50'
+                          }`}>
+                          <span className="text-xs">{data.ticket.swagsCollected ? '🕸️' : '🀥'}</span>
+                          {data.ticket.swagsCollected ? 'Swags Claimed' : 'Swags Available'}
+                        </div>
                       </div>
 
                       {/* Mandatory Laptop Note */}
