@@ -1,9 +1,17 @@
 import Ticket from "../models/Ticket";
 import Notification from "../models/Notification";
-import { TICKET_STATUS } from "../config/constants.js";
+import {
+  TICKET_STATUS
+} from "../config/constants.js";
 
-export async function scanGateAttendance({ ticketNumber, adminId, gate = "Main Gate" }) {
-  const ticket = await Ticket.findOne({ ticketNumber }).populate("userId", "name email");
+export async function scanGateAttendance({
+  ticketNumber,
+  adminId,
+  gate = "Main Gate"
+}) {
+  const ticket = await Ticket.findOne({
+    ticketNumber
+  }).populate("userId", "name email");
   if (!ticket) {
     const error = new Error("Ticket not found");
     error.statusCode = 404;
@@ -31,11 +39,19 @@ export async function scanGateAttendance({ ticketNumber, adminId, gate = "Main G
     message: `Welcome to InnovateX Connect '26! Your check-in was recorded at ${gate}.`,
   });
 
-  return { ticket, attendance };
+  return {
+    ticket
+  };
 }
 
-export async function scanFoodCollection({ ticketNumber, adminId, counter = "Food Counter 1" }) {
-  const ticket = await Ticket.findOne({ ticketNumber }).populate("userId", "name email");
+export async function scanFoodCollection({
+  ticketNumber,
+  adminId,
+  counter = "Food Counter 1"
+}) {
+  const ticket = await Ticket.findOne({
+    ticketNumber
+  }).populate("userId", "name email");
   if (!ticket) {
     const error = new Error("Ticket not found");
     error.statusCode = 404;
@@ -63,11 +79,22 @@ export async function scanFoodCollection({ ticketNumber, adminId, counter = "Foo
     message: `Your food coupon was successfully scanned at ${counter}. Enjoy your meal!`,
   });
 
-  return { ticket, foodScan: { counter } };
+  return {
+    ticket,
+    foodScan: {
+      counter
+    }
+  };
 }
 
-export async function scanSwagsCollection({ ticketNumber, adminId, counter = "Swags Counter 1" }) {
-  const ticket = await Ticket.findOne({ ticketNumber }).populate("userId", "name email");
+export async function scanSwagsCollection({
+  ticketNumber,
+  adminId,
+  counter = "Swags Counter 1"
+}) {
+  const ticket = await Ticket.findOne({
+    ticketNumber
+  }).populate("userId", "name email");
   if (!ticket) {
     const error = new Error("Ticket not found");
     error.statusCode = 404;
@@ -95,5 +122,10 @@ export async function scanSwagsCollection({ ticketNumber, adminId, counter = "Sw
     message: `Your swags were successfully collected at ${counter}. We hope you enjoy them!`,
   });
 
-  return { ticket, swagsScan: { counter } };
+  return {
+    ticket,
+    swagsScan: {
+      counter
+    }
+  };
 }

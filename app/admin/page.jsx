@@ -830,7 +830,7 @@ function ScannerPanel({
           <div className="pl-14 space-y-1">
             <p className="text-[11px] text-emerald-400 font-mono">
               {scanType === 'gate'
-                ? `Gate: ${myResult.data?.attendance?.gate}`
+                ? `Gate: 1`
                 : scanType === 'food'
                 ? `Counter: ${myResult.data?.foodScan?.counter}`
                 : `Counter: ${myResult.data?.swagsScan?.counter}`}
