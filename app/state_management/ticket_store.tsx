@@ -6,15 +6,16 @@ import { create } from "zustand"
 interface TicketState {
     isAvailable: boolean
     redirectUrl: string
+    isEventFinished: boolean
 }
 
 const TicketContext = createContext<TicketStore | null>(null)
 
 function createTicketStore() {
-    console.log(process.env.NEXT_PUBLIC_TICKET_AVAILABLE)
     return create<TicketState>(() => ({
         isAvailable: (Number(process.env.NEXT_PUBLIC_TICKET_AVAILABLE ?? 1)) !== 0 ? true : false,
-        redirectUrl: (process.env.NEXT_PUBLIC_TICKET_REDIRECT_URL ?? "/dashboard")
+        redirectUrl: (process.env.NEXT_PUBLIC_TICKET_REDIRECT_URL ?? "/dashboard"),
+        isEventFinished: (Number(process.env.NEXT_PUBLIC_EVENT_FINISHED ?? 0)) !== 0 || process.env.NEXT_PUBLIC_EVENT_FINISHED === 'true'
     }))
 }
 

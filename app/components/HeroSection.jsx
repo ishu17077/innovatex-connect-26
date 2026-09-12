@@ -9,6 +9,8 @@ export default function HeroSection() {
   const store = GetTicketStore();
   const isAvailable = useStore(store, (state) => state.isAvailable);
   const redirectUrl = useStore(store, (state) => state.redirectUrl);
+  const storeEventFinished = useStore(store, (state) => state.isEventFinished);
+  const isEventFinished = storeEventFinished ?? ((Number(process.env.NEXT_PUBLIC_EVENT_FINISHED ?? 0)) !== 0 || process.env.NEXT_PUBLIC_EVENT_FINISHED === 'true');
 
   const handleTicketClick = () => {
     window.location.href = redirectUrl;
@@ -61,27 +63,47 @@ export default function HeroSection() {
 
         {/* Action Buttons */}
         <div className="w-full max-w-sm flex flex-col gap-2.5 mt-1">
-          <div className='relative sm:w-full'>
-            {!isAvailable && (
-              <div className="absolute z-10 inset-0 flex items-center justify-center bg-brand-bg/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
-                <div className="bg-[#EE4B15] z-10 text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 text-5xl tracking-wide border border-white/20 whitespace-nowrap">
-                  SOLD OUT
+          {isEventFinished ? (
+            <div className="relative overflow-hidden flex flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-[#121840] via-[#0C1235] to-[#121840] border border-[#EE4B15]/40 px-5 py-4 shadow-[0_12px_30px_rgba(238,75,21,0.2)] backdrop-blur-md text-center">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EE4B15]/15 border border-[#EE4B15]/30 mb-2">
+                <span className="w-2 h-2 rounded-full bg-[#EE4B15] animate-ping" />
+                <span className="text-[#EE4B15] font-mono text-[10px] sm:text-xs font-black uppercase tracking-widest">
+                  Event Finished
+                </span>
+              </div>
+              <div className="font-blackhan uppercase leading-none tracking-tight text-[#F1FDFD] text-2xl sm:text-3xl">
+                THANK YOU!
+              </div>
+              <div className="font-bricolage text-sm font-bold text-[#EE4B15] mt-1.5">
+                See You Soon! ✨
+              </div>
+              <p className="font-bricolage text-xs text-slate-300 mt-1 leading-relaxed">
+                Thank you for being part of InnovateX Connect 2026. Stay tuned for our next edition!
+              </p>
+            </div>
+          ) : (
+            <div className='relative sm:w-full'>
+              {!isAvailable && (
+                <div className="absolute z-10 inset-0 flex items-center justify-center bg-brand-bg/60 backdrop-blur-sm rounded-2xl pointer-events-none select-none">
+                  <div className="bg-[#EE4B15] z-10 text-[#F1FDFD] font-blackhan px-4 py-1.5 rounded-lg shadow-[0_0_20px_rgba(238,75,21,0.4)] transform -rotate-6 text-5xl tracking-wide border border-white/20 whitespace-nowrap">
+                    SOLD OUT
+                  </div>
                 </div>
-              </div>
-            )}
-            <button
-              type="button"
-              onClick={handleTicketClick}
-              disabled={!isAvailable}
-              className={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl bg-[#F1FDFD] px-5 py-3.5 shadow-xl transition-all w-full ${isAvailable ? 'cursor-pointer active:scale-98' : 'cursor-not-allowed opacity-85'}`}
-              aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
-            >
-              <div className="font-blackhan uppercase leading-none tracking-tight text-[#0C1235] text-xl">
-                GET YOUR TICKET
-              </div>
-              <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" width={100} height={100} />
-            </button>
-          </div>
+              )}
+              <button
+                type="button"
+                onClick={handleTicketClick}
+                disabled={!isAvailable}
+                className={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl bg-[#F1FDFD] px-5 py-3.5 shadow-xl transition-all w-full ${isAvailable ? 'cursor-pointer active:scale-98' : 'cursor-not-allowed opacity-85'}`}
+                aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
+              >
+                <div className="font-blackhan uppercase leading-none tracking-tight text-[#0C1235] text-xl">
+                  GET YOUR TICKET
+                </div>
+                <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" width={100} height={100} />
+              </button>
+            </div>
+          )}
           <a
             href="https://chat.whatsapp.com/L4X2PkdD8v49MSI1iEWUcu"
             target="_blank"
@@ -113,27 +135,48 @@ export default function HeroSection() {
               </div>
 
               <div className="mt-8 flex w-full flex-col sm:flex-row gap-3 sm:gap-0 sm:items-stretch">
-                <button
-                  type="button"
-                  onClick={handleTicketClick}
-                  disabled={!isAvailable}
-                  className={`group relative overflow-hidden flex flex-1 items-center justify-between sm:justify-start gap-4 sm:gap-6 rounded-2xl sm:rounded-l-3xl sm:rounded-r-none bg-[#F1FDFD] px-5 py-4 shadow-[0_24px_70px_rgba(0,0,0,0.4)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(46,108,255,0.3)] ${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed opacity-85'}`}
-                  aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
-                >
-                  {!isAvailable && (
-                    <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#090D2B]/60 backdrop-blur-sm rounded-2xl sm:rounded-l-3xl sm:rounded-r-none pointer-events-none select-none">
-                      <div className="bg-[#EE4B15] text-[#F1FDFD] font-blackhan px-6 py-2 rounded-xl shadow-[0_0_25px_rgba(238,75,21,0.5)] transform -rotate-6 text-3xl sm:text-4xl tracking-wide border border-white/20 whitespace-nowrap">
-                        SOLD OUT
-                      </div>
+                {isEventFinished ? (
+                  <div className="group relative overflow-hidden flex flex-1 flex-col justify-center rounded-2xl sm:rounded-l-3xl sm:rounded-r-none bg-gradient-to-br from-[#121840] via-[#0C1235] to-[#121840] border border-white/15 px-6 py-4 shadow-[0_24px_70px_rgba(0,0,0,0.4)] transition-all duration-500 hover:-translate-y-1 hover:border-[#EE4B15]/40">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-2 h-2 rounded-full bg-[#EE4B15] animate-ping" />
+                      <span className="text-[#EE4B15] font-mono text-xs font-black uppercase tracking-widest">
+                        Event Finished
+                      </span>
                     </div>
-                  )}
-                  <div className="font-blackhan uppercase leading-[0.85] tracking-[-0.05em] text-[#0C1235] text-[clamp(1.75rem,3.5vw,3rem)]">
-                    <div>GET</div>
-                    <div>YOUR</div>
+                    <div className="font-blackhan uppercase leading-[0.9] tracking-[-0.03em] text-[#F1FDFD] text-[clamp(1.75rem,2.8vw,2.5rem)]">
+                      THANK YOU!
+                    </div>
+                    <div className="font-bricolage text-sm sm:text-base font-bold text-[#EE4B15] mt-1">
+                      See You Soon! ✨
+                    </div>
+                    <p className="font-bricolage text-xs text-slate-300 mt-1 leading-relaxed">
+                      Thank you for making InnovateX Connect 2026 unforgettable!
+                    </p>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
                   </div>
-                  <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" height={100} width={100} />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-200/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleTicketClick}
+                    disabled={!isAvailable}
+                    className={`group relative overflow-hidden flex flex-1 items-center justify-between sm:justify-start gap-4 sm:gap-6 rounded-2xl sm:rounded-l-3xl sm:rounded-r-none bg-[#F1FDFD] px-5 py-4 shadow-[0_24px_70px_rgba(0,0,0,0.4)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(46,108,255,0.3)] ${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed opacity-85'}`}
+                    aria-label={isAvailable ? 'Get ticket' : 'Sold out'}
+                  >
+                    {!isAvailable && (
+                      <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#090D2B]/60 backdrop-blur-sm rounded-2xl sm:rounded-l-3xl sm:rounded-r-none pointer-events-none select-none">
+                        <div className="bg-[#EE4B15] text-[#F1FDFD] font-blackhan px-6 py-2 rounded-xl shadow-[0_0_25px_rgba(238,75,21,0.5)] transform -rotate-6 text-3xl sm:text-4xl tracking-wide border border-white/20 whitespace-nowrap">
+                          SOLD OUT
+                        </div>
+                      </div>
+                    )}
+                    <div className="font-blackhan uppercase leading-[0.85] tracking-[-0.05em] text-[#0C1235] text-[clamp(1.75rem,3.5vw,3rem)]">
+                      <div>GET</div>
+                      <div>YOUR</div>
+                    </div>
+                    <Image src="/tickets.svg" alt="" aria-hidden="true" className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" height={100} width={100} />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-200/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  </button>
+                )}
 
                 <a
                   href="https://chat.whatsapp.com/L4X2PkdD8v49MSI1iEWUcu"
